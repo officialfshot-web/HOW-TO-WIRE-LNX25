@@ -4,6 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Interactive guide to the Lincoln LN-25X wire feeder: parts, loading wire, trigger modes, settings, and MIG/flux-core technique.">
+<meta name="theme-color" content="#1c2228">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="LN-25X">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta property="og:type" content="website">
+<meta property="og:title" content="LN-25X Field Guide">
+<meta property="og:description" content="Interactive guide to the Lincoln LN-25X wire feeder: parts, loading wire, 2-step/4-step, settings simulator, heat chart.">
+<meta property="og:url" content="https://how-to-wire-lnx25.vercel.app/">
+<meta property="og:image" content="https://how-to-wire-lnx25.vercel.app/icons/og.png">
+<meta name="twitter:card" content="summary_large_image">
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>LN-25X Field Guide</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -161,6 +175,9 @@ canvas.sim{width:100%;height:auto;max-width:100%;display:block;border-radius:4px
 .steplist li.act{border-color:var(--amber);background:var(--amber-soft)}
 .steplist li.act::before{color:var(--amber-ink)}
 .steplist b{display:block}
+.install{background:var(--amber-soft);border-bottom:1px solid var(--line)}
+.install .wrap{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding-block:10px}
+.install span{flex:1 1 220px;font-size:15px}
 .tg{cursor:pointer}
 section>*,.split>*{min-width:0}
 #caseInfo,#partInfo,#lsPanel{scroll-margin-top:64px}
@@ -200,6 +217,8 @@ section>*,.split>*{min-width:0}
   <h1>LN-25<span>X</span> Field Guide</h1>
   <p class="sub">Wire feeder setup and MIG / flux-core technique for stick &amp; TIG hands</p>
 </div></header>
+
+<div class="install" id="installBar" hidden><div class="wrap"><span id="installTxt">Add this guide to your home screen. It works offline too.</span><button class="btn primary" id="installBtn" hidden>Install</button><button class="btn" id="installX">Not now</button></div></div>
 
 <nav class="tabs" aria-label="Sections"><div class="wrap" role="tablist">
   <button role="tab" data-tab="suitcase">Suitcase</button>
@@ -1340,6 +1359,20 @@ let saved={};try{saved=JSON.parse(store.get("ln25x-checks")||"{}")}catch(e){}
 $("#checks").innerHTML=checks.map((c,i)=>`<label><input type="checkbox" id="ck${i}" ${saved[i]?"checked":""}><span>${c}</span></label>`).join("");
 $$("#checks input").forEach((el,i)=>el.onchange=()=>{saved[i]=el.checked;store.set("ln25x-checks",JSON.stringify(saved))});
 $("#resetChecks").onclick=()=>{saved={};store.set("ln25x-checks","{}");$$("#checks input").forEach(e=>e.checked=false)};
+
+/* install + offline */
+if("serviceWorker" in navigator&&location.protocol==="https:")addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));
+(function(){const bar=$("#installBar");if(!bar)return;
+ const standalone=matchMedia("(display-mode: standalone)").matches||navigator.standalone;
+ if(standalone||store.get("ln25x-install-dismiss"))return;
+ let deferred=null;
+ addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferred=e;$("#installBtn").hidden=false;bar.hidden=false});
+ const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+ if(ios){$("#installTxt").textContent="Add this guide to your home screen: tap Share, then Add to Home Screen. It works offline too.";bar.hidden=false}
+ $("#installBtn").onclick=async()=>{if(!deferred)return;deferred.prompt();try{await deferred.userChoice}catch(_){}deferred=null;bar.hidden=true};
+ $("#installX").onclick=()=>{bar.hidden=true;store.set("ln25x-install-dismiss","1")};
+ addEventListener("appinstalled",()=>{bar.hidden=true});
+})();
 </script>
 
 </body>
