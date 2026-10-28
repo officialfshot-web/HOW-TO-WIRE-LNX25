@@ -1,0 +1,1346 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Interactive guide to the Lincoln LN-25X wire feeder: parts, loading wire, trigger modes, settings, and MIG/flux-core technique.">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>LN-25X Field Guide</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;800&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: shop-manual pages behind a sticky tab rail; one section visible at a time, each built around one interactive tool. */
+:root{
+  --bg:#eef0f2; --panel:#ffffff; --ink:#1c2228; --muted:#5b6670; --line:#cfd5db;
+  --steel:#8a96a2; --amber:#e08a00; --amber-ink:#8a5200; --amber-soft:#fff1d9;
+  --copper:#b8693a; --brass:#c9a227; --hot:#d2412c; --ok:#2f8a4f;
+  --case:#b9c1c8; --lcd:#11171c; --lcd-ink:#ffb21e; --plate:#c3c9cf; --cold:#3b7dd8; --bead:#7c8792;
+  --display:"Saira Condensed","Arial Narrow",sans-serif;
+  --body:"Source Sans 3",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#14181c; --panel:#1d2329; --ink:#e7ebee; --muted:#9aa5ae; --line:#323b43;
+  --steel:#6d7a86; --amber:#f4a51c; --amber-ink:#ffc45c; --amber-soft:#3a2a0f;
+  --copper:#d28356; --brass:#dcb43a; --hot:#ef6450; --ok:#5cc07d; --case:#38424b; --plate:#2c343b; --cold:#6aa3f0; --bead:#9ba6b0; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#14181c; --panel:#1d2329; --ink:#e7ebee; --muted:#9aa5ae; --line:#323b43;
+  --steel:#6d7a86; --amber:#f4a51c; --amber-ink:#ffc45c; --amber-soft:#3a2a0f;
+  --copper:#d28356; --brass:#dcb43a; --hot:#ef6450; --ok:#5cc07d; --case:#38424b; --plate:#2c343b; --cold:#6aa3f0; --bead:#9ba6b0; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 var(--body);margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--ink)}
+.wrap{max-width:960px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{background:var(--ink);color:var(--bg)}
+header.top .wrap{padding-block:22px 18px;display:flex;flex-wrap:wrap;gap:6px 18px;align-items:baseline}
+h1{font:800 clamp(30px,6vw,46px)/1 var(--display);letter-spacing:.01em;margin:0;text-transform:uppercase}
+h1 span{color:var(--amber)}
+.sub{font-size:15px;opacity:.8;margin:0}
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--panel);border-bottom:2px solid var(--line)}
+nav.tabs .wrap{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+nav.tabs button{font:600 15px var(--display);letter-spacing:.06em;text-transform:uppercase;background:none;border:0;color:var(--muted);padding:13px 12px 11px;border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap}
+nav.tabs button[aria-selected="true"]{color:var(--ink);border-color:var(--amber)}
+nav.tabs button:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+main .wrap{padding-block:26px 60px}
+section{display:grid;gap:22px}
+h2{font:800 28px/1.1 var(--display);text-transform:uppercase;margin:0;text-wrap:balance}
+h3{font:700 18px/1.25 var(--body);margin:0 0 6px}
+p{margin:0;max-width:66ch}
+.lede{color:var(--muted)}
+.tag{font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--amber-ink)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:18px}
+.split{display:grid;gap:18px;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)}
+@media (max-width:720px){.split{grid-template-columns:1fr}}
+svg text{font-family:var(--mono)}
+.part{cursor:pointer;transition:filter .15s}
+.part:hover,.part.on{filter:drop-shadow(0 0 4px var(--amber))}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:600 14px var(--body);border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:6px 11px;border-radius:999px;cursor:pointer}
+.chip.on{background:var(--amber);border-color:var(--amber);color:#1c1400}
+.info .note{margin-top:10px;padding:10px 12px;background:var(--amber-soft);border-left:3px solid var(--amber);font-size:15px}
+.steps{display:grid;gap:14px}
+.stepbar{display:flex;gap:4px}
+.stepbar i{flex:1;height:6px;background:var(--line);border-radius:3px}
+.stepbar i.done{background:var(--amber)}
+.stepnum{font:800 64px/1 var(--display);color:var(--amber)}
+.stepcard{display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:start}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+.btn{font:700 15px var(--body);padding:10px 16px;border-radius:5px;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer}
+.btn.primary{background:var(--amber);border-color:var(--amber);color:#1c1400}
+.btn:disabled{opacity:.4;cursor:default}
+.warn{color:var(--hot);font-weight:700}
+.feeder-list{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+.feeder-list div{border-top:2px solid var(--line);padding-top:8px}
+.feeder-list b{display:block}
+.feeder-list span{color:var(--muted);font-size:15px}
+.ctrl{display:grid;gap:6px;margin-top:12px}
+.ctrl label{font-weight:700}
+input[type=range]{width:100%;accent-color:var(--amber)}
+.readout{font:500 14px var(--mono);color:var(--muted)}
+.verdict{margin-top:10px;font-weight:700}
+.good{color:var(--ok)} .bad{color:var(--hot)}
+.fix-list{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.fix-list li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:8px}
+.fix-list li::before{content:counter(f);counter-increment:f;font:800 20px/1.2 var(--display);color:var(--amber)}
+.fix-list{counter-reset:f}
+.checks{display:grid;gap:8px}
+.checks label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.checks input{margin-top:5px;width:18px;height:18px;accent-color:var(--amber)}
+.checks label:has(input:checked) span{color:var(--muted);text-decoration:line-through}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:600 12px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.scroll{overflow-x:auto}
+.pname{font:800 26px/1.05 var(--display);text-transform:uppercase;margin:4px 0 6px}
+.row{display:grid;gap:2px;margin-top:10px}
+.row b,.like span{font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.like{margin-top:12px;padding:12px 14px;background:var(--amber-soft);border-radius:6px;display:grid;gap:4px}
+.like span{color:var(--amber-ink)}
+.like p{font:600 21px/1.2 var(--display)}
+.hooks{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+.hooks div{border-left:4px solid var(--amber);padding:6px 0 6px 12px;display:grid;gap:2px}
+.hooks b{font:800 22px/1.1 var(--display);text-transform:uppercase}
+.hooks span{color:var(--muted);font-size:15px}
+.qopts{display:grid;gap:8px;margin-top:12px}
+.qopts .btn{text-align:left}
+.qright{border-color:var(--ok)!important;color:var(--ok)!important;box-shadow:inset 0 0 0 1px var(--ok)}
+.qwrong{border-color:var(--hot)!important;color:var(--hot)!important}
+.qz{animation:qpulse 1s ease-in-out infinite}
+@keyframes qpulse{50%{filter:drop-shadow(0 0 10px var(--amber)) drop-shadow(0 0 4px var(--amber));opacity:.75}}
+.quizmode svg text:not(.lcd){opacity:0}
+.quizmode #caseChips,.quizmode #partChips{visibility:hidden}
+.ends{display:flex;justify-content:space-between;font:500 12px var(--mono);color:var(--muted)}
+.prob{border-top:1px solid var(--line);padding-top:10px;margin-top:10px;display:grid;gap:3px}
+.prob b{color:var(--hot);font:800 20px var(--display);text-transform:uppercase}
+.prob.okay b{color:var(--ok)}
+.prob i{font-style:normal;font-weight:700}
+canvas.sim{width:100%;height:auto;max-width:100%;display:block;border-radius:4px}
+.wgrid{display:grid;grid-template-columns:auto repeat(3,minmax(0,1fr));gap:6px;margin-top:12px}
+.wgrid .ax{font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.05em;color:var(--muted);display:flex;align-items:center;justify-content:center;text-align:center;padding:4px}
+.wcell{font:700 14px/1.15 var(--body);padding:10px 6px;border-radius:6px;border:2px solid var(--line);cursor:pointer;min-height:62px;color:var(--ink);background:var(--bg);text-align:center}
+.wcell small{display:block;font:500 11px var(--mono);color:var(--muted);margin-top:4px;text-transform:uppercase}
+.wcell[data-sev="ok"]{border-color:var(--ok)}
+.wcell[data-sev="warn"]{border-color:var(--amber)}
+.wcell[data-sev="bad"]{border-color:var(--hot)}
+.wcell.on{background:var(--amber-soft);box-shadow:0 0 0 3px var(--amber)}
+.sev{display:inline-block;font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.06em;padding:2px 8px;border-radius:999px;color:#fff}
+.sev.ok{background:var(--ok)}.sev.warn{background:var(--amber-ink)}.sev.bad{background:var(--hot)}
+.testbead{margin-top:14px;border-top:1px solid var(--line);padding-top:12px;display:grid;gap:8px}
+.tb-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.tb-head b{font:800 24px var(--display);text-transform:uppercase}
+.sevtxt.ok{color:var(--ok)}.sevtxt.warn{color:var(--amber-ink)}.sevtxt.bad{color:var(--hot)}
+.heat{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px;align-items:center;font:500 11px var(--mono);text-transform:uppercase;color:var(--muted)}
+.heatbar{position:relative;height:10px;border-radius:5px;background:linear-gradient(90deg,var(--cold),var(--amber),var(--hot))}
+.heatbar i{position:absolute;top:-5px;width:4px;height:20px;margin-left:-2px;background:var(--ink);border-radius:2px;transition:left .2s}
+.cp[data-c="wfs"],.cp[data-c="volts"]{touch-action:none;cursor:grab}
+.nums{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:8px}
+.nums div{border-top:3px solid var(--amber);padding-top:6px;min-width:0}
+.nums b{display:block;font:800 44px/1 var(--display);font-variant-numeric:tabular-nums}
+.nums span{font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.math{font:500 14px var(--mono);background:var(--bg);padding:10px 12px;border-radius:5px;margin-top:12px;overflow-x:auto;white-space:nowrap}
+.fracs{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:8px}
+.fracs div{background:var(--bg);border-radius:5px;padding:8px 10px;display:grid}
+.fracs b{font:800 22px var(--display)}
+.fracs span{font:500 13px var(--mono);color:var(--muted)}
+.lights{display:flex;gap:18px;margin:14px 0 8px;flex-wrap:wrap}
+.light{display:grid;justify-items:center;gap:4px;font:500 11px var(--mono);text-transform:uppercase;color:var(--muted)}
+.light i{width:28px;height:28px;border-radius:50%;background:var(--line);transition:background .15s,box-shadow .15s}
+.light.on i{background:var(--c);box-shadow:0 0 14px var(--c)}
+.light.blink i{animation:blink .25s steps(2) infinite}
+@keyframes blink{50%{opacity:.35}}
+.phase{font:800 24px/1.1 var(--display);text-transform:uppercase;min-height:2.3em}
+.trig{width:100%;max-width:280px;height:92px;border-radius:14px;border:3px solid var(--ink);background:var(--amber);color:#1c1400;font:800 26px var(--display);text-transform:uppercase;cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none;margin-top:8px}
+.trig.down{transform:translateY(3px);box-shadow:inset 0 5px 0 rgba(0,0,0,.25);background:var(--amber-ink);color:#fff}
+.beadbar{height:14px;background:var(--plate);border-radius:7px;overflow:hidden;margin-top:12px}
+.beadbar i{display:block;height:100%;width:0;background:var(--bead)}
+.steplist{list-style:none;padding:0;margin:8px 0 0;display:grid;gap:8px;counter-reset:s}
+.steplist li{display:grid;grid-template-columns:30px minmax(0,1fr);gap:8px;padding:10px;border-radius:6px;border:1px solid var(--line)}
+.steplist li::before{counter-increment:s;content:counter(s);font:800 26px/1 var(--display);color:var(--muted)}
+.steplist li.act{border-color:var(--amber);background:var(--amber-soft)}
+.steplist li.act::before{color:var(--amber-ink)}
+.steplist b{display:block}
+.tg{cursor:pointer}
+section>*,.split>*{min-width:0}
+#caseInfo,#partInfo,#lsPanel{scroll-margin-top:64px}
+@media (max-width:720px){#caseInfo,#partInfo,#lsPanel{order:-1}}
+.goal{animation:qpulse 1s ease-in-out infinite}
+.fb-good{color:var(--ok)!important;font-weight:600}
+.fb-bad{color:var(--hot)!important;font-weight:600}
+.split.ls{grid-template-columns:minmax(0,1.6fr) minmax(0,1fr)}
+@media (max-width:720px){.split.ls{grid-template-columns:1fr}}
+.cp{cursor:pointer;transition:filter .15s}
+.cp:hover,.cp.on{filter:drop-shadow(0 0 5px var(--amber))}
+.lbl{font-size:11px;fill:var(--muted);letter-spacing:.06em;pointer-events:none}
+.lcd{font:500 26px var(--mono);fill:var(--lcd-ink)}
+.spinner{transform-box:view-box}
+.feeding #wirePath{animation:feed .5s linear infinite}
+.feeding .spin-ccw{animation:spin 1.6s linear infinite reverse}
+.feeding .spin-cw{animation:spin .6s linear infinite}
+.feeding .roll-ccw{animation:spin .6s linear infinite reverse}
+.armopen.feeding #wirePath{animation:none}
+.armopen.feeding .spin-ccw{animation:none}
+@keyframes feed{to{stroke-dashoffset:-20}}
+@keyframes spin{to{transform:rotate(360deg)}}
+#armG{transition:transform .35s}
+.puff{opacity:0}
+.purging .puff{animation:puff 1s ease-out infinite}
+.purging .puff:nth-child(2){animation-delay:.33s}.purging .puff:nth-child(3){animation-delay:.66s}
+@keyframes puff{0%{opacity:.8;transform:translateX(0)}100%{opacity:0;transform:translateX(40px)}}
+.status{font:500 14px var(--mono);color:var(--muted);min-height:1.5em}
+.status.live{color:var(--amber-ink)}
+.knobrow{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-top:14px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <h1>LN-25<span>X</span> Field Guide</h1>
+  <p class="sub">Wire feeder setup and MIG / flux-core technique for stick &amp; TIG hands</p>
+</div></header>
+
+<nav class="tabs" aria-label="Sections"><div class="wrap" role="tablist">
+  <button role="tab" data-tab="suitcase">Suitcase</button>
+  <button role="tab" data-tab="parts">Gun</button>
+  <button role="tab" data-tab="load">Load wire</button>
+  <button role="tab" data-tab="technique">Gun technique</button>
+  <button role="tab" data-tab="sim">Dial it in</button>
+  <button role="tab" data-tab="heat">Heat chart</button>
+  <button role="tab" data-tab="fix">Troubleshoot</button>
+  <button role="tab" data-tab="preweld">Pre-weld check</button>
+</div></nav>
+
+<main><div class="wrap">
+
+<!-- SUITCASE -->
+<section id="suitcase" hidden>
+  <div><span class="tag">The feeder</span><h2>The suitcase, inside and out</h2></div>
+  <p class="lede">Tap any part for a plain-English answer. Inside, hold Cold feed to watch the wire move. When you think you know them, hit Quiz me.</p>
+  <div class="chips" id="viewChips">
+    <button class="chip on" data-v="front">Front</button>
+    <button class="chip" data-v="back">Back</button>
+    <button class="chip" data-v="inside">Inside (door open)</button>
+  </div>
+  <div class="btns"><button class="btn primary" id="caseQuizBtn">Quiz me on this view</button></div>
+  <div class="split">
+    <div class="panel">
+      <!-- FRONT -->
+      <div id="v-front">
+        <svg viewBox="0 0 640 400" width="100%" role="img" aria-label="Front of the LN-25X feeder">
+          <g class="cp" data-c="handle"><path d="M230 80 V46 Q230 34 242 34 H398 Q410 34 410 46 V80" fill="none" stroke="var(--steel)" stroke-width="14" stroke-linecap="round"/></g>
+          <rect x="120" y="76" width="400" height="290" rx="14" fill="var(--case)" stroke="var(--ink)" stroke-width="2"/>
+          <g class="cp" data-c="door"><rect x="490" y="96" width="22" height="250" rx="4" fill="var(--steel)"/><circle cx="501" cy="220" r="6" fill="var(--ink)"/></g>
+          <rect x="146" y="102" width="330" height="184" rx="8" fill="var(--bg)" stroke="var(--line)"/>
+          <g class="cp" data-c="meters">
+            <rect x="170" y="118" width="130" height="50" rx="4" fill="var(--lcd)"/><text x="235" y="153" text-anchor="middle" class="lcd" id="mW">375</text>
+            <rect x="322" y="118" width="130" height="50" rx="4" fill="var(--lcd)"/><text x="387" y="153" text-anchor="middle" class="lcd" id="mV">24.0</text>
+          </g>
+          <text x="235" y="184" text-anchor="middle" class="lbl">WFS IN/MIN</text>
+          <text x="387" y="184" text-anchor="middle" class="lbl">VOLTS</text>
+          <g class="cp" data-c="wfs"><circle cx="235" cy="226" r="28" fill="var(--ink)"/><line id="wfsPtr" x1="235" y1="226" x2="235" y2="202" stroke="var(--amber)" stroke-width="4" stroke-linecap="round"/></g>
+          <g class="cp" data-c="volts"><circle cx="387" cy="226" r="28" fill="var(--ink)"/><line id="vPtr" x1="387" y1="226" x2="387" y2="202" stroke="var(--amber)" stroke-width="4" stroke-linecap="round"/></g>
+          <g class="cp" data-c="setup"><circle cx="311" cy="250" r="8" fill="var(--panel)" stroke="var(--ink)" stroke-width="2"/></g>
+          <text x="311" y="240" text-anchor="middle" class="lbl">SETUP</text>
+          <text x="235" y="274" text-anchor="middle" class="lbl">WIRE SPEED</text>
+          <text x="387" y="274" text-anchor="middle" class="lbl">VOLTAGE</text>
+          <g class="cp" data-c="bushing"><circle cx="250" cy="324" r="22" fill="var(--brass)"/><circle cx="250" cy="324" r="8" fill="var(--ink)"/></g>
+          <g class="cp" data-c="trigger"><circle cx="330" cy="324" r="13" fill="var(--steel)" stroke="var(--ink)" stroke-width="2"/><circle cx="326" cy="320" r="2" fill="var(--ink)"/><circle cx="334" cy="320" r="2" fill="var(--ink)"/><circle cx="330" cy="329" r="2" fill="var(--ink)"/></g>
+          <text x="250" y="358" text-anchor="middle" class="lbl">GUN</text>
+          <text x="330" y="358" text-anchor="middle" class="lbl">TRIGGER</text>
+          <text x="501" y="88" text-anchor="middle" class="lbl">DOOR</text>
+          <rect x="132" y="366" width="70" height="10" rx="3" fill="var(--steel)"/><rect x="438" y="366" width="70" height="10" rx="3" fill="var(--steel)"/>
+        </svg>
+        <p class="status" style="margin-top:6px">Drag the knobs or use the sliders. The test bead below updates as you turn.</p>
+        <div class="knobrow">
+          <div class="ctrl"><label for="wfsIn">Wire feed speed</label><input type="range" id="wfsIn" min="50" max="700" step="5" value="375"></div>
+          <div class="ctrl"><label for="vIn">Voltage</label><input type="range" id="vIn" min="14" max="34" step="0.5" value="24"></div>
+          <div class="ctrl"><label for="fT">Your travel speed</label><input type="range" id="fT" min="1" max="9" value="5"><div class="ends"><span>Slow</span><span>Fast</span></div></div>
+        </div>
+        <div class="testbead">
+          <div class="tb-head"><span class="tag">Test bead</span><b id="fbName" class="sevtxt ok">Dialed in</b></div>
+          <canvas class="sim" id="frontBead" width="640" height="300" aria-label="Simulated test bead for the current knob settings"></canvas>
+          <div class="heat"><span>Cold</span><div class="heatbar"><i id="heatMark" style="left:50%"></i></div><span>Hot</span></div>
+          <p id="fbFix"></p>
+          <div class="btns"><button class="btn" id="fbSound">Hear it</button></div>
+          <p class="status">Teaching model: here the middle of both knobs is balanced. Real balance depends on your wire size and type, so go by the spool label or your WPS.</p>
+        </div>
+      </div>
+      <!-- BACK -->
+      <div id="v-back" hidden>
+        <svg viewBox="0 0 640 400" width="100%" role="img" aria-label="Back of the LN-25X feeder">
+          <g class="cp" data-c="handle"><path d="M230 80 V46 Q230 34 242 34 H398 Q410 34 410 46 V80" fill="none" stroke="var(--steel)" stroke-width="14" stroke-linecap="round"/></g>
+          <rect x="120" y="76" width="400" height="290" rx="14" fill="var(--case)" stroke="var(--ink)" stroke-width="2"/>
+          <g class="cp" data-c="plate"><rect x="146" y="102" width="86" height="52" rx="3" fill="var(--panel)" stroke="var(--line)"/><line x1="156" y1="116" x2="222" y2="116" stroke="var(--muted)"/><line x1="156" y1="128" x2="210" y2="128" stroke="var(--muted)"/><line x1="156" y1="140" x2="216" y2="140" stroke="var(--muted)"/></g>
+          <g class="cp" data-c="electrode"><path d="M20 210 H210" stroke="var(--ink)" stroke-width="18" stroke-linecap="round"/><polygon points="230,184 252,197 252,223 230,236 208,223 208,197" fill="var(--brass)"/><circle cx="230" cy="210" r="9" fill="var(--ink)"/></g>
+          <g class="cp" data-c="gasin"><rect x="380" y="150" width="34" height="18" rx="3" fill="var(--brass)"/><path d="M414 159 C 520 159, 560 130, 630 130" fill="none" stroke="var(--ok)" stroke-width="7" stroke-linecap="round"/></g>
+          <g class="cp" data-c="flowmeter"><rect x="430" y="196" width="26" height="76" rx="13" fill="var(--panel)" stroke="var(--ink)" stroke-width="2"/><circle cx="443" cy="236" r="6" fill="var(--hot)"/><line x1="436" y1="214" x2="450" y2="214" stroke="var(--muted)"/><line x1="436" y1="254" x2="450" y2="254" stroke="var(--muted)"/></g>
+          <g class="cp" data-c="worksense"><circle cx="320" cy="300" r="9" fill="var(--steel)" stroke="var(--ink)" stroke-width="2"/><path d="M320 309 C 320 380, 520 360, 600 384" fill="none" stroke="var(--ink)" stroke-width="4"/><path d="M596 376 l26 4 l-6 10 l-24 -2z" fill="var(--hot)"/></g>
+          <text x="230" y="262" text-anchor="middle" class="lbl">ELECTRODE LEAD IN</text>
+          <text x="397" y="140" text-anchor="middle" class="lbl">GAS IN</text>
+          <text x="443" y="292" text-anchor="middle" class="lbl">FLOWMETER*</text>
+          <text x="320" y="286" text-anchor="middle" class="lbl">WORK SENSE</text>
+          <text x="189" y="170" text-anchor="middle" class="lbl">RATING PLATE</text>
+        </svg>
+        <p class="status">* Flowmeter only comes on some LN-25X models.</p>
+      </div>
+      <!-- INSIDE -->
+      <div id="v-inside" hidden>
+        <svg viewBox="0 0 640 400" width="100%" role="img" aria-label="Inside the LN-25X wire compartment" id="insideSvg">
+          <rect x="40" y="40" width="560" height="330" rx="14" fill="var(--case)" stroke="var(--ink)" stroke-width="2"/>
+          <rect x="58" y="58" width="524" height="294" rx="8" fill="var(--bg)"/>
+          <g class="cp" data-c="spool">
+            <g class="spinner spin-ccw" style="transform-origin:210px 210px">
+              <circle cx="210" cy="210" r="120" fill="var(--copper)" fill-opacity=".3" stroke="var(--copper)" stroke-width="3"/>
+              <circle cx="210" cy="210" r="104" fill="none" stroke="var(--copper)" stroke-opacity=".5"/>
+              <circle cx="210" cy="210" r="88" fill="none" stroke="var(--copper)" stroke-opacity=".5"/>
+              <circle cx="210" cy="210" r="72" fill="none" stroke="var(--copper)" stroke-opacity=".5"/>
+              <circle cx="210" cy="210" r="44" fill="var(--panel)" stroke="var(--ink)" stroke-width="2"/>
+              <line x1="210" y1="168" x2="210" y2="128" stroke="var(--ink)" stroke-width="3"/>
+            </g>
+          </g>
+          <g class="cp" data-c="retainer"><circle cx="210" cy="210" r="28" fill="none" stroke="var(--steel)" stroke-width="8"/></g>
+          <g class="cp" data-c="brake"><polygon points="210,198 220,204 220,216 210,222 200,216 200,204" fill="var(--ink)"/></g>
+          <path id="wirePath" d="M210 330 C 300 330, 330 250, 385 250 L 584 250" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-dasharray="6 4"/>
+          <g class="cp" data-c="inlet"><rect x="382" y="243" width="50" height="14" rx="3" fill="var(--steel)" stroke="var(--ink)"/></g>
+          <g class="cp" data-c="motor"><rect x="440" y="276" width="72" height="62" rx="6" fill="var(--steel)" fill-opacity=".55" stroke="var(--ink)"/><text x="476" y="312" text-anchor="middle" class="lbl">DRIVE</text></g>
+          <g class="cp" data-c="rolls">
+            <g class="spinner spin-cw" style="transform-origin:475px 268px"><circle cx="475" cy="268" r="18" fill="var(--ink)"/><circle cx="475" cy="268" r="11" fill="none" stroke="var(--brass)" stroke-width="2"/><line x1="475" y1="268" x2="475" y2="252" stroke="var(--brass)" stroke-width="3"/></g>
+          </g>
+          <g id="armG" style="transform-origin:430px 212px;transform-box:view-box">
+            <g class="cp" data-c="arm"><rect x="424" y="204" width="98" height="12" rx="5" fill="var(--steel)" stroke="var(--ink)"/><circle cx="430" cy="210" r="5" fill="var(--ink)"/></g>
+            <g class="cp" data-c="rolls"><g class="spinner roll-ccw" style="transform-origin:475px 232px"><circle cx="475" cy="232" r="18" fill="var(--ink)"/><circle cx="475" cy="232" r="11" fill="none" stroke="var(--brass)" stroke-width="2"/><line x1="475" y1="232" x2="475" y2="216" stroke="var(--brass)" stroke-width="3"/></g></g>
+            <g class="cp" data-c="tension"><rect x="520" y="178" width="14" height="40" rx="4" fill="var(--steel)"/><circle cx="527" cy="176" r="12" fill="var(--amber)" stroke="var(--ink)" stroke-width="2"/></g>
+          </g>
+          <g class="cp" data-c="outer"><rect x="502" y="244" width="66" height="12" rx="3" fill="var(--brass)" stroke="var(--ink)"/><circle cx="582" cy="250" r="12" fill="var(--brass)" stroke="var(--ink)"/></g>
+          <g id="puffs" transform="translate(596 250)"><circle class="puff" r="6" fill="var(--ok)"/><circle class="puff" r="6" cy="-8" fill="var(--ok)"/><circle class="puff" r="6" cy="8" fill="var(--ok)"/></g>
+          <g class="cp" data-c="coldfeed"><rect x="364" y="86" width="44" height="22" rx="11" fill="var(--panel)" stroke="var(--ink)" stroke-width="2"/><circle id="cfDot" cx="386" cy="97" r="7" fill="var(--amber)"/></g>
+          <g class="cp" data-c="steps"><rect x="452" y="86" width="44" height="22" rx="11" fill="var(--panel)" stroke="var(--ink)" stroke-width="2"/><circle id="stDot" cx="463" cy="97" r="7" fill="var(--ink)"/></g>
+          <text x="386" y="126" text-anchor="middle" class="lbl">COLD FEED / PURGE</text>
+          <text x="474" y="126" text-anchor="middle" class="lbl" id="stLbl">2-STEP</text>
+          <text x="407" y="276" text-anchor="middle" class="lbl">INLET</text>
+          <text x="535" y="276" text-anchor="middle" class="lbl">OUTER GUIDE</text>
+          <text x="210" y="364" text-anchor="middle" class="lbl">SPOOL</text>
+        </svg>
+        <div class="btns" style="margin-top:12px">
+          <button class="btn primary" id="cfBtn">Hold for cold feed</button>
+          <button class="btn" id="purgeBtn">Gas purge</button>
+          <button class="btn" id="armBtn">Open pressure arm</button>
+          <button class="btn" id="stepBtn">Switch to 4-step</button>
+        </div>
+        <p class="status" id="feedStatus">Arm closed. Ready to feed.</p>
+      </div>
+    </div>
+    <div class="panel info" id="caseInfo" aria-live="polite"></div>
+  </div>
+  <div class="chips" id="caseChips"></div>
+  <div class="btns"><button class="btn primary" id="tourBtn">Follow the wire, spool to gun</button></div>
+
+  <div><span class="tag">Trigger modes</span><h2>2-step vs 4-step</h2></div>
+  <p class="lede">There's no 3-step. The switch inside the door picks 2-step or 4-step. Pick a mode, then press and hold the trigger to see what the feeder does at each step.</p>
+  <div class="split">
+    <div class="panel">
+      <div class="chips" role="radiogroup" aria-label="Trigger mode">
+        <button class="chip on" data-tm="2">2-step</button>
+        <button class="chip" data-tm="4">4-step</button>
+      </div>
+      <div class="lights">
+        <div class="light" id="lGas" style="--c:var(--ok)"><i></i>Gas</div>
+        <div class="light" id="lWire" style="--c:var(--amber)"><i></i>Wire</div>
+        <div class="light" id="lArc" style="--c:var(--cold)"><i></i>Arc</div>
+      </div>
+      <div class="phase" id="trPhase">Ready</div>
+      <button class="trig" id="trigBtn" aria-label="Trigger: press and hold">Trigger</button>
+      <div class="beadbar"><i id="trBead"></i></div>
+      <p class="status" id="trHint" style="margin-top:8px">Press and hold the trigger.</p>
+    </div>
+    <div class="panel">
+      <h3 id="trTitle"></h3>
+      <ol class="steplist" id="trSteps"></ol>
+      <div class="like"><span>Remember it</span><p id="trMem"></p></div>
+      <p id="trUse" style="margin-top:10px"></p>
+    </div>
+  </div>
+
+  <div><span class="tag">Behind the door</span><h2>Inside settings cheat sheet</h2></div>
+  <div class="panel scroll">
+    <table>
+      <thead><tr><th>Setting</th><th>What it does</th><th>Starting point / tip</th></tr></thead>
+      <tbody>
+        <tr><td><b>Pressure arm</b></td><td>How hard the drive rolls squeeze the wire. It has a number scale.</td><td>Lincoln's manual: solid steel or stainless 4–6, cored (flux-core) 3–4. Cored wire is softer, so less squeeze.</td></tr>
+        <tr><td><b>Spindle brake</b></td><td>Drag on the spool.</td><td>Just enough that the spool stops when the wire stops. Like the drag on a reel.</td></tr>
+        <tr><td><b>2-step / 4-step switch</b></td><td>Trigger mode.</td><td>2-step for tacks and short welds. 4-step for long beads.</td></tr>
+        <tr><td><b>Cold feed / gas purge</b></td><td>Feeds wire or flows gas without turning on weld power.</td><td>Cold feed when loading wire. Purge when setting gas flow.</td></tr>
+        <tr><td><b>Run-in speed</b></td><td>How fast the wire creeps in before the arc lights.</td><td>Slower run-in gives softer starts.</td></tr>
+        <tr><td><b>Pre-flow / post-flow</b></td><td>Gas before the arc starts and after it stops.</td><td>Post-flow covers the hot crater so it doesn't get porous.</td></tr>
+        <tr><td><b>Burnback</b></td><td>Keeps the arc on a split second after the wire stops so the wire doesn't stick in the puddle.</td><td>Set too long, it melts the wire back into the tip. Getting a ball welded on the tip? Have whoever sets up the machine check this.</td></tr>
+        <tr><td><b>Thermal light</b></td><td>The drive motor got too hot. It shuts the drive off for up to about 30 seconds to cool.</td><td>If it keeps happening, look for drag: dirty liner, kinked cable, tension too high.</td></tr>
+        <tr><td><b>Trigger at power-up</b></td><td>If you're holding the trigger when the feeder powers up, it won't feed.</td><td>Let go of the trigger, then pull again.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="status">Run-in, pre-flow, post-flow, and burnback are set through the setup menu on most units. Check your manual or your lead before changing them.</p>
+</section>
+
+<!-- PARTS -->
+<section id="parts" hidden>
+  <div><span class="tag">Know the names</span><h2>The whole gun</h2></div>
+  <p class="lede">Tap a part to see what it does and what goes wrong with it. The liner is the dashed line running inside the cable.</p>
+  <div class="panel">
+    <svg viewBox="0 0 640 170" width="100%" role="img" aria-label="Whole MIG gun from connector to nozzle">
+      <g class="part" data-part="triggerlead"><path d="M44 94 C 44 130, 70 140, 96 140" fill="none" stroke="var(--ink)" stroke-width="4"/><rect x="96" y="132" width="22" height="16" rx="3" fill="var(--steel)" stroke="var(--ink)"/></g>
+      <g class="part" data-part="connector"><rect x="14" y="64" width="50" height="30" rx="4" fill="var(--brass)"/><rect x="2" y="73" width="14" height="12" rx="2" fill="var(--brass)" stroke="var(--ink)"/></g>
+      <g class="part" data-part="cable"><path d="M64 79 C 200 79, 230 128, 340 118 S 420 92, 446 92" fill="none" stroke="var(--ink)" stroke-opacity=".55" stroke-width="18" stroke-linecap="round"/></g>
+      <g class="part" data-part="liner"><path d="M64 79 C 200 79, 230 128, 340 118 S 420 92, 446 92" fill="none" stroke="var(--amber)" stroke-width="3" stroke-dasharray="8 5"/></g>
+      <g class="part" data-part="boot"><rect x="440" y="80" width="36" height="24" rx="9" fill="var(--ink)"/></g>
+      <g class="part" data-part="handle"><path d="M474 76 L560 70 L566 104 L478 108 Z" fill="var(--steel)" stroke="var(--ink)"/></g>
+      <g class="part" data-part="trigger"><path d="M526 105 q 8 20 -12 26 l -4 -6 q 10 -6 6 -18 z" fill="var(--amber)" stroke="var(--ink)"/></g>
+      <g class="part" data-part="neck"><path d="M562 84 Q 600 86 610 112" fill="none" stroke="var(--steel)" stroke-width="12" stroke-linecap="round"/></g>
+      <g class="part" data-part="nozzle"><rect x="602" y="110" width="18" height="30" rx="3" fill="var(--copper)" transform="rotate(-24 611 125)"/></g>
+      <text x="36" y="56" text-anchor="middle" class="lbl">CONNECTOR</text>
+      <text x="108" y="164" text-anchor="middle" class="lbl">TRIGGER PLUG</text>
+      <text x="230" y="150" text-anchor="middle" class="lbl">CABLE + LINER</text>
+      <text x="458" y="124" text-anchor="middle" class="lbl">BOOT</text>
+      <text x="518" y="62" text-anchor="middle" class="lbl">HANDLE</text>
+      <text x="598" y="160" text-anchor="middle" class="lbl">NOZZLE</text>
+    </svg>
+    <div class="btns" style="margin-top:10px"><button class="btn primary" id="gunQuizBtn">Quiz me on the gun</button></div>
+  </div>
+  <div class="panel info" id="gunQuiz" hidden aria-live="polite"></div>
+  <div><span class="tag">Zoomed in</span><h2>Front of the gun</h2></div>
+  <div class="split">
+    <div class="panel">
+      <svg viewBox="0 0 520 220" width="100%" role="img" aria-label="Cutaway of the MIG gun front end">
+        <!-- gooseneck -->
+        <g class="part" data-part="neck">
+          <path d="M20 150 Q90 150 140 115 L170 95" stroke="var(--steel)" stroke-width="26" fill="none" stroke-linecap="round"/>
+        </g>
+        <!-- insulator -->
+        <g class="part" data-part="insul">
+          <rect x="178" y="78" width="40" height="40" rx="3" fill="var(--ink)" transform="rotate(-20 198 98)"/>
+        </g>
+        <!-- diffuser -->
+        <g class="part" data-part="diff">
+          <rect x="215" y="66" width="62" height="40" rx="3" fill="var(--brass)" transform="rotate(-20 246 86)"/>
+          <circle cx="232" cy="96" r="3" fill="var(--panel)"/><circle cx="252" cy="88" r="3" fill="var(--panel)"/><circle cx="244" cy="76" r="3" fill="var(--panel)"/>
+        </g>
+        <!-- nozzle (outline) -->
+        <g class="part" data-part="nozzle">
+          <path d="M205 52 L355 -2 L372 46 L382 84 L232 138 Z" fill="var(--copper)" fill-opacity=".28" stroke="var(--copper)" stroke-width="4" transform="translate(0,22)"/>
+        </g>
+        <!-- tip -->
+        <g class="part" data-part="tip">
+          <rect x="272" y="62" width="74" height="20" rx="4" fill="var(--copper)" transform="rotate(-20 309 72)"/>
+        </g>
+        <!-- wire -->
+        <g class="part" data-part="wire">
+          <line x1="342" y1="60" x2="400" y2="39" stroke="var(--ink)" stroke-width="3"/>
+          <circle cx="401" cy="38.5" r="4" fill="var(--ink)"/>
+        </g>
+        <text x="20" y="196" font-size="12" fill="var(--muted)">GOOSENECK</text>
+        <text x="176" y="164" font-size="12" fill="var(--muted)">INSULATOR</text>
+        <text x="250" y="20" font-size="12" fill="var(--muted)">NOZZLE</text>
+        <text x="408" y="34" font-size="12" fill="var(--muted)">WIRE</text>
+        <text x="276" y="132" font-size="12" fill="var(--muted)">DIFFUSER / TIP</text>
+      </svg>
+      <div class="chips" id="partChips" style="margin-top:10px"></div>
+    </div>
+    <div class="panel info" id="partInfo" aria-live="polite"></div>
+  </div>
+
+  <div><span class="tag">Inside the case</span><h2>Feeder parts, spool to gun</h2></div>
+  <div class="feeder-list">
+    <div><b>Spool &amp; spindle</b><span>Holds the wire. The spindle brake keeps the spool from free-spinning when you let off the trigger. Retainer locks it on.</span></div>
+    <div><b>Inlet guide</b><span>The tube the wire enters before it reaches the drive rolls.</span></div>
+    <div><b>Drive rolls</b><span>Grooved wheels that push the wire. Size is stamped on the roll. V-groove for solid, knurled for flux-core.</span></div>
+    <div><b>Pressure arm</b><span>Tension knob that squeezes the rolls onto the wire. Too loose slips, too tight crushes.</span></div>
+    <div><b>Gun bushing</b><span>Where the gun plugs in. Push it all the way in and lock it, or wire and gas feed badly.</span></div>
+    <div><b>Cold feed</b><span>Feeds wire with no power and no gas. Use it to load wire.</span></div>
+    <div><b>Gas purge</b><span>Flows gas with no wire so you can set flow and clear the line.</span></div>
+    <div><b>2-step / 4-step</b><span>2-step: hold trigger to weld. 4-step: click on, click off.</span></div>
+    <div><b>Liner</b><span>Tube inside the gun cable that the wire rides through. Dirty or kinked liners cause stutter and burnback.</span></div>
+  </div>
+</section>
+
+<!-- LOAD WIRE -->
+<section id="load" hidden>
+  <div><span class="tag">Hands-on</span><h2>Load a spool, step by step</h2></div>
+  <p class="lede">Do each step yourself. The pulsing part is what to tap next. Mistakes are fine. It tells you what would happen for real.</p>
+  <div class="hooks"><div><b>Off, open, check, mount, cut, thread, squeeze, feed, clip</b><span>The whole job in nine words.</span></div></div>
+  <div class="split ls">
+    <div class="panel">
+      <svg id="ls" viewBox="0 0 720 420" width="100%" role="img" aria-label="Wire loading simulation">
+        <rect x="16" y="140" width="116" height="180" rx="8" fill="var(--case)" stroke="var(--ink)" stroke-width="2"/>
+        <text x="74" y="164" text-anchor="middle" class="lbl">POWER SOURCE</text>
+        <g class="tg" data-t="power"><rect x="50" y="190" width="48" height="26" rx="13" fill="var(--panel)" stroke="var(--ink)" stroke-width="2"/><circle id="pwrKnob" cx="86" cy="203" r="9"/></g>
+        <text x="74" y="236" text-anchor="middle" class="lbl" id="pwrLbl">ON</text>
+        <circle id="pwrLed" cx="74" cy="268" r="8"/>
+        <path d="M132 296 C 150 296, 150 330, 168 330" stroke="var(--ink)" stroke-width="10" fill="none"/>
+        <rect x="160" y="60" width="350" height="300" rx="12" fill="var(--case)" stroke="var(--ink)" stroke-width="2"/>
+        <rect x="174" y="74" width="322" height="272" rx="6" fill="var(--bg)"/>
+        <text x="335" y="378" text-anchor="middle" class="lbl">LN-25X FEEDER</text>
+        <circle cx="270" cy="210" r="7" fill="var(--steel)"/>
+        <g id="lsSpool" hidden>
+          <g class="spinner spin-ccw" style="transform-origin:270px 210px">
+            <circle cx="270" cy="210" r="88" fill="var(--copper)" fill-opacity=".3" stroke="var(--copper)" stroke-width="3"/>
+            <circle cx="270" cy="210" r="72" fill="none" stroke="var(--copper)" stroke-opacity=".5"/>
+            <circle cx="270" cy="210" r="56" fill="none" stroke="var(--copper)" stroke-opacity=".5"/>
+            <circle cx="270" cy="210" r="34" fill="var(--panel)" stroke="var(--ink)" stroke-width="2"/>
+            <line x1="270" y1="176" x2="270" y2="140" stroke="var(--ink)" stroke-width="3"/>
+          </g>
+        </g>
+        <g class="tg" data-t="retainer" id="lsRet" hidden><circle id="lsRetRing" cx="270" cy="210" r="20" fill="var(--bg)" fill-opacity=".01" stroke-width="7"/></g>
+        <path id="lsWirePath" d="M270 298 C 330 298, 350 240, 380 240 L 500 240" fill="none" stroke="var(--ink)" stroke-width="2.5" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" hidden/>
+        <path id="lsKink" d="M299 296 q 9 -1 11 -10 q 2 -7 8 -8" fill="none" stroke="var(--ink)" stroke-width="2.5" hidden/>
+        <g class="tg" data-t="cut" id="lsCut" hidden><circle cx="308" cy="288" r="18" fill="var(--amber)" fill-opacity=".2" stroke="var(--amber)" stroke-width="2" stroke-dasharray="4 3"/></g>
+        <rect x="380" y="233" width="32" height="14" rx="3" fill="var(--steel)" stroke="var(--ink)"/>
+        <text x="396" y="268" text-anchor="middle" class="lbl">INLET</text>
+        <g class="spinner spin-cw" style="transform-origin:435px 253px"><circle cx="435" cy="253" r="12" fill="var(--ink)"/><line x1="435" y1="253" x2="435" y2="242" stroke="var(--brass)" stroke-width="3"/></g>
+        <text x="435" y="288" text-anchor="middle" class="lbl" id="lsRollLbl">ROLLS</text>
+        <g id="lsArm" class="tg" data-t="arm" style="transform-origin:400px 214px;transform-box:view-box;transition:transform .35s">
+          <rect x="396" y="206" width="78" height="11" rx="5" fill="var(--steel)" stroke="var(--ink)"/>
+          <circle cx="400" cy="211" r="4" fill="var(--ink)"/>
+          <g class="spinner roll-ccw" style="transform-origin:435px 227px"><circle cx="435" cy="227" r="12" fill="var(--ink)"/><line x1="435" y1="227" x2="435" y2="216" stroke="var(--brass)" stroke-width="3"/></g>
+          <circle cx="468" cy="198" r="9" fill="var(--amber)" stroke="var(--ink)" stroke-width="2"/>
+        </g>
+        <text x="436" y="186" text-anchor="middle" class="lbl">PRESSURE ARM</text>
+        <rect x="452" y="234" width="40" height="12" rx="3" fill="var(--brass)" stroke="var(--ink)"/>
+        <circle cx="500" cy="240" r="10" fill="var(--brass)" stroke="var(--ink)"/>
+        <g class="tg" data-t="door" id="lsDoor">
+          <rect x="174" y="74" width="322" height="272" rx="6" fill="var(--steel)" stroke="var(--ink)"/>
+          <rect x="474" y="190" width="12" height="40" rx="4" fill="var(--ink)"/>
+          <text x="335" y="214" text-anchor="middle" class="lbl" style="fill:var(--bg)">SIDE DOOR</text>
+        </g>
+        <g class="tg" data-t="cable"><path id="lsCable" fill="none" stroke="var(--ink)" stroke-opacity=".45" stroke-width="13" stroke-linecap="round"/></g>
+        <path id="lsGunWire" fill="none" stroke="var(--amber)" stroke-width="3" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" style="pointer-events:none"/>
+        <path d="M556 330 L618 327 L622 353 L560 356 Z" fill="var(--steel)" stroke="var(--ink)"/>
+        <path d="M620 340 L650 340" stroke="var(--steel)" stroke-width="10"/>
+        <rect x="646" y="331" width="16" height="17" rx="2" fill="var(--brass)"/>
+        <line id="lsStick" x1="686" y1="339" x2="730" y2="339" stroke="var(--ink)" stroke-width="2.5" hidden/>
+        <g class="tg" data-t="tip" id="lsTip"><rect x="660" y="335" width="26" height="8" rx="2" fill="var(--copper)"/></g>
+        <g class="tg" data-t="nozzle" id="lsNoz"><rect x="650" y="325" width="42" height="28" rx="4" fill="var(--copper)" fill-opacity=".35" stroke="var(--copper)" stroke-width="3"/></g>
+        <g transform="translate(700 339)"><circle class="puff" r="6" fill="var(--ok)"/><circle class="puff" r="6" cy="-8" fill="var(--ok)"/><circle class="puff" r="6" cy="8" fill="var(--ok)"/></g>
+        <text x="590" y="378" text-anchor="middle" class="lbl">GUN</text>
+        <g id="lsHandle" hidden style="cursor:grab;touch-action:none"><circle r="34" fill="transparent"/><circle r="16" fill="var(--amber)" fill-opacity=".25"/><circle r="9" fill="var(--amber)" stroke="var(--ink)" stroke-width="2"/></g>
+      </svg>
+    </div>
+    <div class="panel" id="lsPanel">
+      <div class="stepbar" id="lsBar"></div>
+      <span class="tag" id="lsCount" style="margin-top:12px;display:block"></span>
+      <h3 class="pname" id="lsTitle"></h3>
+      <p id="lsDesc"></p>
+      <div id="lsCtl" style="margin-top:12px"></div>
+      <p id="lsFb" class="status" style="margin-top:10px" aria-live="polite"></p>
+      <div class="like" id="lsMem"><span>Remember</span><p></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- TECHNIQUE -->
+<section id="technique" hidden>
+  <div><span class="tag">Angles &amp; motion</span><h2>Holding the gun</h2></div>
+  <div class="hooks">
+    <div><b>If there's slag, you drag</b><span>Flux-core leaves slag, so drag it like stick. Solid wire with gas, push it.</span></div>
+    <div><b>Bacon, not popcorn</b><span>A good wire arc sizzles steady. Pops and crackles mean your settings are off.</span></div>
+    <div><b>Clip, then weld</b><span>Snip the ball off the wire before every start.</span></div>
+    <div><b>Firm handshake</b><span>Roll tension: tight enough that it doesn't slip, not so tight it crushes.</span></div>
+  </div>
+  <p class="lede">Stick habits hold the arc too tight and drag everything. Set the process, then move the sliders to see how the angle and distance should look.</p>
+  <div class="split">
+    <div class="panel">
+      <svg viewBox="0 0 420 230" width="100%" role="img" aria-label="Side view of gun angle over the plate">
+        <defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--amber)"/></marker></defs>
+        <rect x="10" y="180" width="400" height="22" fill="var(--steel)"/>
+        <rect x="10" y="176" width="190" height="6" rx="3" fill="var(--copper)" id="bead"/>
+        <line x1="90" y1="160" x2="330" y2="160" stroke="var(--amber)" stroke-width="2" marker-end="url(#arr)"/>
+        <text x="236" y="152" font-size="11" fill="var(--amber-ink)">TRAVEL</text>
+        <g id="gun">
+          <line id="wireLine" x1="0" y1="0" x2="0" y2="0" stroke="var(--ink)" stroke-width="2"/>
+          <rect id="gunBody" x="-15" y="-150" width="30" height="110" rx="5" fill="var(--copper)"/>
+          <rect x="-9" y="-40" width="18" height="10" fill="var(--brass)" id="gunTip"/>
+        </g>
+        <text x="16" y="222" font-size="11" fill="var(--muted)" id="angleLabel"></text>
+      </svg>
+    </div>
+    <div class="panel">
+      <div class="chips" role="radiogroup" aria-label="Process">
+        <button class="chip on" data-proc="solid">Solid wire + gas</button>
+        <button class="chip" data-proc="flux">Flux-core</button>
+      </div>
+      <div class="ctrl">
+        <label for="angle">Travel angle</label>
+        <input type="range" id="angle" min="-35" max="35" value="12">
+        <span class="readout" id="angleOut"></span>
+      </div>
+      <div class="ctrl">
+        <label for="stick">Nozzle-to-work distance</label>
+        <input type="range" id="stick" min="1" max="12" value="5">
+        <span class="readout" id="stickOut"></span>
+      </div>
+      <p class="verdict" id="verdict"></p>
+    </div>
+  </div>
+
+  <div class="split">
+    <div class="panel">
+      <h3>Cursive "e" motion</h3>
+      <canvas id="cursive" width="600" height="180" style="width:100%;height:auto;max-width:100%;display:block"></canvas>
+      <div class="btns" style="margin-top:10px">
+        <button class="chip on" data-pat="e">Cursive e</button>
+        <button class="chip" data-pat="z">Zigzag</button>
+        <button class="chip" data-pat="o">Small circles</button>
+        <button class="chip" data-pat="s">Straight stringer</button>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>How to run it</h3>
+      <ul class="fix-list">
+        <li><span>Loops about the width of the bead, 1/4" or less.</span></li>
+        <li><span>Pause a split second on each toe so it wets in. The dots show where.</span></li>
+        <li><span>Move quicker through the middle so it doesn't pile up.</span></li>
+        <li><span>Keep the rhythm even. Consistent spacing matters more than loop size.</span></li>
+      </ul>
+      <div class="note" style="margin-top:12px;padding:10px 12px;background:var(--amber-soft);border-left:3px solid var(--amber);font-size:15px">Work angle: about 45° into a fillet, 90° on a flat butt, slightly up toward the top plate on horizontal.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SIM -->
+<section id="sim" hidden>
+  <div><span class="tag">Practice without burning wire</span><h2>Dial it in</h2></div>
+  <p class="lede">Move the sliders and watch the bead lay down. Tap a mistake to see what it looks like, then hit Play to hear it.</p>
+  <div class="hooks"><div><b>Wire = heat. Volts = width.</b><span>Wire speed sets your amps. Volts set how long and wide the arc is. Keep them balanced: when one goes up, the other usually follows.</span></div></div>
+  <div class="panel">
+    <h3>What if...?</h3>
+    <p class="lede" style="font-size:15px">Tap a box. It sets the sliders below and tells you what you'd see, hear, and feel.</p>
+    <div class="wgrid" id="wgrid"></div>
+    <div id="wcard" style="margin-top:14px"></div>
+  </div>
+  <div class="chips" id="presets">
+    <button class="chip" data-pre="good">Dialed in</button>
+    <button class="chip" data-pre="burnback">Volts too high</button>
+    <button class="chip" data-pre="stub">Wire too fast</button>
+    <button class="chip" data-pre="close">Too close</button>
+    <button class="chip" data-pre="far">Too far</button>
+    <button class="chip" data-pre="slow">Moving too slow</button>
+    <button class="chip" data-pre="fast">Moving too fast</button>
+  </div>
+  <div class="split">
+    <div class="panel">
+      <canvas class="sim" id="beadCv" width="640" height="300" aria-label="Weld bead, top view and cross-section"></canvas>
+      <canvas class="sim" id="waveCv" width="640" height="70" style="margin-top:10px" aria-hidden="true"></canvas>
+      <div class="btns" style="margin-top:10px"><button class="btn primary" id="soundBtn">Play the sound</button></div>
+      <p class="status" id="soundTxt" style="margin-top:6px"></p>
+    </div>
+    <div class="panel">
+      <div class="ctrl"><label for="sW">Wire speed</label><input type="range" id="sW" min="1" max="9" value="5"><div class="ends"><span>Slow</span><span>Fast</span></div></div>
+      <div class="ctrl"><label for="sV">Voltage</label><input type="range" id="sV" min="1" max="9" value="5"><div class="ends"><span>Low</span><span>High</span></div></div>
+      <div class="ctrl"><label for="sD">Gun distance</label><input type="range" id="sD" min="1" max="9" value="5"><div class="ends"><span>Close</span><span>Far</span></div></div>
+      <div class="ctrl"><label for="sT">Travel speed</label><input type="range" id="sT" min="1" max="9" value="5"><div class="ends"><span>Slow</span><span>Fast</span></div></div>
+      <div id="simVerdict"></div>
+    </div>
+  </div>
+  <p class="status">This is a teaching model, not real numbers. Real settings come from the spool label, your WPS, or a test bead on scrap.</p>
+</section>
+
+<!-- HEAT -->
+<section id="heat" hidden>
+  <div><span class="tag">How much heat</span><h2>Heat chart</h2></div>
+  <p class="lede">Pick your metal thickness and wire size. It works out a starting amperage and wire speed, and shows the math so you can do it in your head next time.</p>
+  <div class="split">
+    <div class="panel">
+      <h3>Metal thickness (steel)</h3><div class="chips" id="thkChips"></div>
+      <h3 style="margin-top:16px">Wire size</h3><div class="chips" id="wireChips"></div>
+    </div>
+    <div class="panel" id="heatOut" aria-live="polite"></div>
+  </div>
+
+  <div><span class="tag">Remember it</span><h2>Do it in your head</h2></div>
+  <div class="hooks">
+    <div><b>One amp per thou</b><span>Every 0.001" of steel takes about 1 amp. 1/8" is 0.125", so about 125 amps.</span></div>
+    <div><b>.045 is one-for-one</b><span>With .045 wire, wire speed in inches per minute is about the same number as your amps.</span></div>
+    <div><b>Skinny wire, fast feed</b><span>.035 × 1.6, .030 × 2, .023 × 3.5. Thinner wire has to move faster to carry the same amps.</span></div>
+    <div><b>Floor, ceiling, middle</b><span>Drop volts until the wire stubs. Raise them until the arc goes wild. Weld halfway between.</span></div>
+  </div>
+  <div class="panel">
+    <h3>Fractions to thou</h3>
+    <p class="lede" style="font-size:15px">Thou = thousandths of an inch = your amps.</p>
+    <div class="fracs">
+      <div><b>16 ga</b><span>≈ .060"</span></div>
+      <div><b>14 ga</b><span>≈ .075"</span></div>
+      <div><b>1/8"</b><span>.125"</span></div>
+      <div><b>3/16"</b><span>.188"</span></div>
+      <div><b>1/4"</b><span>.250"</span></div>
+      <div><b>3/8"</b><span>.375"</span></div>
+      <div><b>1/2"</b><span>.500"</span></div>
+    </div>
+  </div>
+  <div class="panel info" id="heatQuiz" aria-live="polite"></div>
+  <p class="status">Starting points for solid wire on steel, from Miller's MIG rules of thumb. Flux-core runs differently, so go by its spool label. Always run a test bead on scrap first.</p>
+</section>
+
+<!-- TROUBLESHOOT -->
+<section id="fix" hidden>
+  <div><span class="tag">What's it doing?</span><h2>Troubleshoot</h2></div>
+  <div class="chips" id="symChips"></div>
+  <div class="panel"><h3 id="symTitle"></h3><ol class="fix-list" id="symFixes"></ol></div>
+  <div class="panel scroll">
+    <table>
+      <thead><tr><th>Wire</th><th>Gun motion</th><th>Polarity</th><th>Stickout</th><th>Shielding</th></tr></thead>
+      <tbody>
+        <tr><td>Solid (hardwire)</td><td>Push, 10–15°</td><td>DCEP</td><td>3/8"–1/2"</td><td>Gas, about 20–30 CFH. Screen it from wind.</td></tr>
+        <tr><td>Self-shielded flux-core</td><td>Drag, 10–15°</td><td>Usually DCEN. Check the spool label.</td><td>About 3/4"</td><td>From the flux. Better outside.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- PRE-WELD -->
+<section id="preweld" hidden>
+  <div><span class="tag">Before you pull the trigger</span><h2>Pre-weld check</h2></div>
+  <div class="panel checks" id="checks"></div>
+  <div class="btns"><button class="btn" id="resetChecks">Clear checks</button></div>
+</section>
+
+</div></main>
+
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* plain-English cards: [what it does, think of it like, watch for] */
+var EG={
+ connector:["Plugs the gun into the feeder. Power, wire, and gas all go through it.","A garden hose fitting. Not all the way on? It leaks.","Push it in all the way and lock it."],
+ triggerlead:["Tells the feeder when you pull the trigger.","The cord on a lamp switch.","Loose plug means the trigger does nothing."],
+ cable:["Carries power, gas, and wire up to your hand.","A garden hose with a wire running through it.","Keep it straight. Loops and kinks choke the wire."],
+ liner:["The tube inside the cable that the wire slides through.","A drinking straw. Bend it or clog it and nothing gets through.","Blow it out when you change spools."],
+ boot:["Rubber where the cable meets the handle.","The rubber end on a phone charger that stops it bending sharp.","Torn boot means the cable kinks at the handle."],
+ handle:["What you hold. The trigger lives here.","The grip on a drill.","Neck getting hot? Tighten the nut that holds it."],
+ trigger:["Starts wire, gas, and arc all at once.","A gas pedal. Press to go, let off to stop.","Let off before you set the gun down."],
+ neck:["The bent tube that points the wire where you aim.","The bent spout on a watering can.","Keep it tight at the handle."],
+ insul:["Keeps electricity out of the nozzle.","A rubber glove for the nozzle.","Burned insulator means the nozzle arcs and burns up."],
+ diff:["Holds the tip and spreads the gas out evenly.","A shower head. Little holes spread the gas.","Clogged holes mean bubbles (porosity) in the weld."],
+ tip:["Hands the power to the wire as it passes through.","A doorway the wire walks through. Wrong size door, it gets stuck.","Egg-shaped hole or a stuck ball? Swap it."],
+ nozzle:["Points the gas around the puddle.","An umbrella of gas over your weld.","Too close and it cooks. Back off and keep it clean."],
+ wire:["The filler metal and the electrode at the same time.","A stick rod on a roll that never runs out.","Clip the ball off before every start."]
+};
+var EC={
+ handle:["Carry it and hang it.","A suitcase handle. That's why it's called a suitcase.","Keep it upright, less than about 15° tilt."],
+ meters:["Left shows wire speed, then amps while you weld. Right shows volts.","A speedometer and a tach.","Idle shows your setting. While welding shows actual."],
+ setup:["Hidden button for the setup menu. Timers like run-in, pre-flow, post-flow, and burnback live here.","The settings menu on your phone.","Ask before changing these. They change how the feeder starts and stops."],
+ wfs:["How fast wire comes out. More wire speed means more amps.","The gas pedal. More wire, more heat.","Too slow for your volts gives burnback."],
+ volts:["How long and wide the arc is.","How wide your paintbrush is.","Too low gives a tall rope bead. Too high gives spatter."],
+ bushing:["Where the gun plugs in.","The wall outlet the gun plugs into.","Push the gun in all the way and lock it."],
+ trigger:["5-pin plug where the gun's trigger cord connects.","The outlet for the lamp switch cord.","Trigger does nothing? Check here first."],
+ door:["Opens to the spool and drive rolls.","The trunk lid.","Keep it shut. Dirt on the wire ends up in the liner."],
+ plate:["Model, code number, and ratings.","The VIN on a truck.","Read it when ordering parts or roll kits."],
+ electrode:["The main weld cable from the power source bolts on here.","The main power line into a house.","Loose or dirty lug runs hot and drops voltage."],
+ gasin:["The gas hose hooks up here.","Where the garden hose screws on.","Hissing means a leak. Test with soapy water."],
+ flowmeter:["Sets how much gas flows. Only on some models.","A faucet handle for gas.","More isn't better. Too much pulls air in."],
+ worksense:["Clip lead that lets the feeder read the arc voltage.","The test lead on a multimeter.","Clip it to clean metal or the feeder acts up."],
+ spool:["Your wire supply.","A fishing reel full of line.","Hold the end when you cut the tie, or it springs loose."],
+ retainer:["Locks the spool onto the spindle.","The lug nut on a wheel.","Not locked? The spool walks off."],
+ brake:["Stops the spool from free-spinning when you let off.","The drag on a fishing reel. Too loose and you get a bird's nest.","Too tight and the rolls slip."],
+ inlet:["Lines the wire up before it hits the rolls.","A funnel.","Match it to your wire size."],
+ rolls:["Grip the wire and push it to the gun.","Two hands pulling a rope, hand over hand.","Groove must match the wire. V for solid, knurled for flux-core."],
+ arm:["Presses the top roll down onto the wire.","A clamp. Open to load, close to feed.","Arm open means rolls spin but the wire doesn't move."],
+ tension:["Sets how hard the rolls squeeze. It has a number scale: about 4–6 for solid steel, 3–4 for flux-core.","A handshake. Firm, not crushing.","Tighten until it stops slipping, then a little more."],
+ motor:["Turns the drive rolls.","The engine.","Motor running but no wire? Something's jammed."],
+ outer:["Carries wire from the rolls into the gun.","The on-ramp to the liner.","A gap here is where birdnests start."],
+ coldfeed:["Feeds wire with no power or gas. The other way purges gas with no wire.","A jog button. Move it without welding.","Use cold feed with the tip off when loading wire."],
+ steps:["2-step: hold the trigger to weld. 4-step: click on, click off. Try both in the trigger simulator below.","2-step is a doorbell. 4-step is a light switch.","Know which it's on before you strike."]
+};
+function card(tag,name,e){if(!e)return "";return `<span class="tag">${tag}</span><h3 class="pname">${name}</h3><div class="row"><b>What it does</b><p>${e[0]}</p></div><div class="like"><span>Think of it like</span><p>${e[1]}</p></div><div class="row"><b>Watch for</b><p>${e[2]}</p></div>`}
+var caseQuiz,gunQuiz;
+function addHits(root,sel,pad){if(!root)return;root.querySelectorAll(sel).forEach(g=>{if(g.dataset.hit)return;let b;try{b=g.getBBox()}catch(e){return}if(!b||(!b.width&&!b.height))return;
+ const r=document.createElementNS("http://www.w3.org/2000/svg","rect");r.setAttribute("x",b.x-pad);r.setAttribute("y",b.y-pad);r.setAttribute("width",b.width+2*pad);r.setAttribute("height",b.height+2*pad);r.setAttribute("fill","transparent");
+ g.insertBefore(r,g.firstChild);g.dataset.hit="1"})}
+function refreshHits(){addHits(document.getElementById("suitcase"),".cp",6);addHits(document.getElementById("parts"),".part",5);addHits(document.getElementById("ls"),".tg",12)}
+function reveal(el){if(!el||!matchMedia("(max-width:720px)").matches)return;const r=el.getBoundingClientRect();
+ if(r.top<64||r.top>innerHeight*.6)el.scrollIntoView({block:"start",behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"})}
+
+/* tabs with hash */
+const tabs=["suitcase","parts","load","technique","sim","heat","fix","preweld"];
+function show(t){if(!tabs.includes(t))t="suitcase";
+  tabs.forEach(x=>{$("#"+x).hidden=x!==t});
+  $$("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===t));
+  if(t==="technique")startCursive();
+  stopSound();if(t==="sim"||t==="suitcase")simStart();setTimeout(refreshHits,50);}
+$$("nav.tabs button").forEach(b=>b.onclick=()=>{location.hash=b.dataset.tab;show(b.dataset.tab)});
+window.addEventListener("hashchange",()=>show(location.hash.slice(1)));
+setTimeout(()=>show(location.hash.slice(1)));
+
+/* parts */
+const parts={
+ connector:["Gun connector","Brass end that plugs into the feeder's gun bushing. Carries current, wire, and gas into the gun.","Push it all the way in and lock it. A gap here leaks gas and makes the wire misfeed."],
+ triggerlead:["Trigger plug","Small lead that plugs into the feeder so the trigger can start the weld.","A loose plug means nothing happens when you pull the trigger, or the weld cuts out."],
+ cable:["Gun cable","Carries current, gas, and wire from the feeder to the handle.","Keep it as straight as you can. Tight loops and kinks cause stutter and burnback."],
+ liner:["Liner","Coiled steel tube inside the cable that guides the wire.","Blow it out when you change spools. If wire still drags with good rolls and a good tip, replace it and cut it to the right length."],
+ boot:["Rubber boot","Strain relief where the cable enters the handle. Stops the cable from kinking right at the handle.","A torn boot lets the cable bend sharp at the handle."],
+ handle:["Handle","Holds the trigger and the gooseneck connection.","If the neck runs hot, check that the nut holding it is tight."],
+ trigger:["Trigger","Starts wire, gas, and arc. In 4-step mode, click to start and click again to stop.","Let off before you set the gun down."],
+ nozzle:["Nozzle","The cup on the end. Directs shielding gas around the weld.","Burns when you hold the gun too close or let spatter build up. Back off to about 1/2\"–5/8\" and knock it clean with nozzle gel."],
+ tip:["Contact tip","Copper piece the wire comes out of. Puts current into the wire. Sized to the wire (.035, .045).","Replace it when the hole is egg-shaped or a burnt ball is stuck in it. Wrong size causes arcing inside the tip."],
+ diff:["Gas diffuser","Brass piece the tip screws into. Holds the nozzle and spreads gas through small holes.","Clogged holes cause porosity. Clean them when you change tips."],
+ insul:["Insulator","Sleeve between diffuser and nozzle that keeps the nozzle from being electrically hot.","If burned or missing, the nozzle arcs to the work. Check this first if nozzles keep getting eaten."],
+ neck:["Gooseneck","Bent tube between the handle and the diffuser. Carries wire, gas, and current.","Keep the connection at the handle tight. A loose neck runs hot."],
+ wire:["Electrode wire","The filler and the electrode. Stickout is how far it sticks past the tip.","Clip the ball off before every start. Solid: 3/8\"–1/2\" stickout. Flux-core: about 3/4\"."]
+};
+function pickPart(k){const p=parts[k];
+ $("#partInfo").innerHTML=card("Gun part",p[0],EG[k]);
+ $$(".part").forEach(g=>g.classList.toggle("on",g.dataset.part===k));
+ $$("#partChips .chip").forEach(c=>c.classList.toggle("on",c.dataset.k===k));}
+$("#partChips").innerHTML=Object.keys(parts).map(k=>`<button class="chip" data-k="${k}">${parts[k][0]}</button>`).join("");
+$$("#partChips .chip").forEach(c=>c.onclick=()=>pickPart(c.dataset.k));
+$$(".part").forEach(g=>g.onclick=()=>{pickPart(g.dataset.part);if(!(gunQuiz&&gunQuiz.on))reveal($("#partInfo"))});
+pickPart("nozzle");
+
+/* load wire simulation */
+(function(){
+const svg=$("#ls"),P=$("#lsWirePath");
+const loopD="M510 240 C 560 240, 625 190, 600 160 C 575 135, 545 190, 585 225 C 625 260, 540 330, 560 342";
+const straightD="M510 240 C 540 240, 535 342, 560 342";
+const LS=[
+ {id:"power",t:"Kill the power",d:"Turn the power source off before you touch the drive. Tap the power switch.",type:"click",target:"power",ok:"Power's off. The light's out.",mem:"Hands in the drive means power off. Every time."},
+ {id:"door",t:"Open the door",d:"Tap the side door on the feeder.",type:"click",target:"door",ok:"Door's open. There's the spindle, inlet guide, drive rolls, and pressure arm."},
+ {id:"roll",t:"Check the drive rolls",d:"This spool is .035 solid wire. Which drive roll should be on?",type:"choice",mem:"The size stamped on the roll matches the spool. V-groove for solid, knurled for flux-core.",
+  opts:[[".035 V-groove",true,"Right. Size matches the wire, and V-groove is for solid wire."],[".045 V-groove",false,"Groove's too big. The wire sits loose and slips."],[".035 knurled",false,"Knurled rolls have teeth for soft flux-core. They chew up solid wire and dump shavings in the liner."]]},
+ {id:"spool",t:"Mount the spool",d:"Slide the spool onto the spindle. Which way should the wire come off?",type:"choice",mem:"Bottom out, straight in.",
+  opts:[["Off the bottom, toward the rolls",true,"Right. A smooth curve straight into the inlet guide."],["Off the top",false,"That bends the wire back over the spool, and it feeds rough."]]},
+ {id:"retainer",t:"Lock the retainer",d:"Tap the retainer ring in the middle of the spool to lock it.",type:"click",target:"retainer",ok:"Locked. The ring turns green.",mem:"Like a lug nut. Not locked, the spool walks off."},
+ {id:"cut",t:"Cut the bent end",d:"Hold the wire so it doesn't spring loose. Tap the bent end to snip it square.",type:"click",target:"cut",ok:"Clean, square end.",mem:"A burr or bend on the end snags the guides and liner."},
+ {id:"armopen",t:"Open the pressure arm",d:"Tap the pressure arm to swing it up.",type:"click",target:"arm",ok:"Arm's up. The top roll is out of the way.",mem:"Open to load, closed to feed."},
+ {id:"thread",t:"Thread the wire",d:"Drag the orange dot along the wire path: through the inlet guide, over the bottom roll's groove, and into the outer guide.",type:"thread",mem:"Inlet, groove, outer guide. Push it through by hand."},
+ {id:"armclose",t:"Close the pressure arm",d:"Tap the arm to drop it back onto the wire.",type:"click",target:"arm",ok:"Arm's down. The rolls are on the wire."},
+ {id:"tension",t:"Set the tension",d:"Turn the tension, then test it by feeding into your gloved hand.",type:"slider",mem:"Firm handshake. Lincoln says about 4–6 for solid steel wire."},
+ {id:"nozzle",t:"Pull the nozzle",d:"Tap the nozzle on the gun to pull it off.",type:"click",target:"nozzle",ok:"Nozzle's off."},
+ {id:"tip",t:"Take the tip off",d:"Tap the contact tip to unscrew it.",type:"click",target:"tip",ok:"Tip's off.",mem:"Tip off while feeding, so the wire can't snag on the way out."},
+ {id:"cable",t:"Straighten the gun cable",d:"The cable's looped up. Tap it to lay it out straight.",type:"click",target:"cable",ok:"Nice and straight.",mem:"Loops and kinks choke the wire. Straight cable, smooth feed."},
+ {id:"feed",t:"Cold feed",d:"Press and hold Cold feed until the wire comes out the end of the gun.",type:"hold",mem:"Cold feed means no weld power, no gas. Safe to hold."},
+ {id:"tipon",t:"Put the tip back on",d:"Which contact tip goes on for .035 wire?",type:"choice",mem:"Tip size = wire size.",
+  opts:[[".035 tip",true,"Right. Snug it down. The nozzle goes back on too."],[".030 tip",false,"Hole's too small. The wire jams and burns back."],[".045 tip",false,"Hole's too big. Bad contact, so the arc jumps around and can arc inside the tip."]]},
+ {id:"clip",t:"Clip the wire",d:"Where do you clip it?",type:"choice",mem:"Clip, then weld. Every start.",
+  opts:[["About 3/8\"–1/2\" past the tip",true,"Right. That's your stickout for solid wire."],["Flush with the tip",false,"Too short. You'd start right on the tip and burn it."],["About 1\" out",false,"Too long. Spatter, a wandering arc, and poor gas coverage."]]},
+ {id:"purge",t:"Power on and purge",d:"",type:"purge",mem:"About 20–30 CFH is a common start for solid wire."}
+];
+let i=0,st,mist=0,feedT=null,dragging=false;
+const vis=(el,on)=>on?el.removeAttribute("hidden"):el.setAttribute("hidden","");
+function fb(m,k){const f=$("#lsFb");f.textContent=m;f.className="status "+(k==="good"?"fb-good":"fb-bad");reveal($("#lsPanel"))}
+function toSvg(e){const pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;return pt.matrixTransform(svg.getScreenCTM().inverse())}
+function render(){
+ const k=$("#pwrKnob");k.setAttribute("cx",st.power?86:62);k.style.fill=st.power?"var(--hot)":"var(--muted)";
+ $("#pwrLed").style.fill=st.power?"var(--hot)":"var(--line)";$("#pwrLbl").textContent=st.power?"ON":"OFF";
+ vis($("#lsDoor"),!st.door);vis($("#lsSpool"),st.spool);vis($("#lsRet"),st.spool);
+ $("#lsRetRing").style.stroke=st.ret?"var(--ok)":"var(--steel)";
+ vis(P,st.spool);P.style.strokeDashoffset=String(1-(st.spool?st.thread:0));
+ vis($("#lsKink"),st.spool&&!st.cut);vis($("#lsCut"),st.spool&&!st.cut&&LS[i]&&LS[i].id==="cut");
+ $("#lsArm").style.transform=st.arm?"rotate(-25deg)":"none";
+ $("#lsRollLbl").textContent=st.roll?".035 V-GROOVE":"ROLLS";
+ const th=!!(LS[i]&&LS[i].id==="thread");vis($("#lsHandle"),th);
+ if(th){const L=P.getTotalLength(),q=P.getPointAtLength(L*st.thread);$("#lsHandle").setAttribute("transform",`translate(${q.x} ${q.y})`)}
+ vis($("#lsNoz"),st.noz);vis($("#lsTip"),st.tip);
+ const d=st.straight?straightD:loopD;$("#lsCable").setAttribute("d",d);
+ $("#lsGunWire").setAttribute("d",d+" L 620 340 L 686 339");$("#lsGunWire").style.strokeDashoffset=String(1-st.gun);
+ vis($("#lsStick"),st.gun>=1);$("#lsStick").setAttribute("x2",686+(st.clip?14:44));
+ addHits(svg,".tg",12);
+}
+function next(msg){i++;show();if(msg)fb(msg,"good")}
+function show(){
+ $$("#ls .goal").forEach(e=>e.classList.remove("goal"));
+ $("#lsBar").innerHTML=LS.map((_,k)=>`<i class="${k<i?"done":""}"></i>`).join("");
+ $("#lsFb").textContent="";const ctl=$("#lsCtl");ctl.innerHTML="";
+ if(i>=LS.length){finish();render();return}
+ const s=LS[i];$("#lsCount").textContent=`Step ${i+1} of ${LS.length}`;$("#lsTitle").textContent=s.t;
+ $("#lsDesc").textContent=s.type==="purge"?(st.power?"Tap Gas purge to clear the line and check your flow.":"Close the door, then tap the power switch to turn it back on."):s.d;
+ $("#lsMem").hidden=!s.mem;$("#lsMem p").textContent=s.mem||"";
+ if(s.type==="click")$(`#ls [data-t="${s.target}"]`).classList.add("goal");
+ if(s.type==="thread")$("#lsHandle").classList.add("goal");
+ if(s.type==="purge"&&!st.power)$('#ls [data-t="power"]').classList.add("goal");
+ if(s.type==="choice"){ctl.innerHTML=`<div class="qopts">${s.opts.map((o,k)=>`<button class="btn" data-o="${k}">${o[0]}</button>`).join("")}</div>`;
+  ctl.querySelectorAll("[data-o]").forEach(b=>b.onclick=()=>{const o=s.opts[+b.dataset.o];
+   if(o[1]){if(s.id==="roll")st.roll=true;if(s.id==="spool")st.spool=true;if(s.id==="tipon"){st.tip=true;st.noz=true}if(s.id==="clip")st.clip=true;render();next(o[2])}
+   else{mist++;b.classList.add("qwrong");fb(o[2],"bad")}})}
+ if(s.type==="slider"){ctl.innerHTML=`<div class="ctrl"><label for="lsTen">Tension: <span id="lsTenOut">2</span></label><input type="range" id="lsTen" min="1" max="10" value="2"><div class="ends"><span>Loose</span><span>Tight</span></div></div><div class="btns" style="margin-top:10px"><button class="btn primary" id="lsTest">Test: feed into your glove</button></div>`;
+  $("#lsTen").oninput=()=>$("#lsTenOut").textContent=$("#lsTen").value;
+  $("#lsTest").onclick=()=>{const v=+$("#lsTen").value;
+   if(v<4){mist++;fb("Slips. The rolls spin, but the wire stalls in your glove. Tighten it.","bad")}
+   else if(v>6){mist++;fb("Too tight. It flattens and shaves the wire, and the shavings end up in the liner. Back it off.","bad")}
+   else next("Feeds smooth and doesn't slip in your glove. That's the handshake.")}}
+ if(s.type==="hold"){ctl.innerHTML=`<button class="trig" id="lsFeed">Hold: cold feed</button>`;
+  const b=$("#lsFeed");
+  const down=e=>{if(e)e.preventDefault();b.classList.add("down");svg.classList.add("feeding");clearInterval(feedT);
+   feedT=setInterval(()=>{st.gun=Math.min(1,st.gun+.025);render();if(st.gun>=1){up(true);next("Wire's out the end of the gun.")}},60)};
+  const up=done=>{clearInterval(feedT);svg.classList.remove("feeding");b.classList.remove("down");if(done!==true&&st.gun<1&&st.gun>0)fb("Keep holding until it comes out the end.","bad")};
+  b.addEventListener("pointerdown",e=>{try{b.setPointerCapture(e.pointerId)}catch(_){}down(e)});
+  ["pointerup","pointercancel"].forEach(ev=>b.addEventListener(ev,()=>up()));
+  b.addEventListener("keydown",e=>{if((e.key===" "||e.key==="Enter")&&!e.repeat)down(e)});
+  b.addEventListener("keyup",e=>{if(e.key===" "||e.key==="Enter")up()})}
+ if(s.type==="purge"&&st.power){ctl.innerHTML=`<button class="btn primary" id="lsPurge">Gas purge</button>`;
+  $("#lsPurge").onclick=()=>{svg.classList.add("purging");$("#lsPurge").disabled=true;fb("Gas flowing. Line's clear.","good");
+   setTimeout(()=>{svg.classList.remove("purging");next()},2200)}}
+ render();
+}
+function finish(){
+ $("#lsCount").textContent="Done";$("#lsTitle").textContent="Loaded and ready";
+ $("#lsDesc").textContent=`Mistakes: ${mist}. ${mist===0?"Clean run.":"Run it again until you get zero."} Next, run a test bead on scrap before the real part.`;
+ $("#lsMem").hidden=false;$("#lsMem p").textContent="Off, open, check, mount, cut, thread, squeeze, feed, clip.";
+ $("#lsCtl").innerHTML=`<button class="btn primary" id="lsAgain">Do it again</button>`;$("#lsAgain").onclick=reset;
+}
+function act(s){
+ const m={power:()=>st.power=false,door:()=>st.door=true,retainer:()=>st.ret=true,cut:()=>st.cut=true,armopen:()=>st.arm=true,armclose:()=>st.arm=false,nozzle:()=>st.noz=false,tip:()=>st.tip=false,cable:()=>st.straight=true}[s.id];
+ if(m)m();render();next(s.ok);
+}
+svg.addEventListener("click",e=>{const g=e.target.closest(".tg");if(!g)return;const t=g.dataset.t,s=LS[i];if(!s)return;
+ if(s.type==="click"&&s.target===t){act(s);return}
+ if(s.type==="purge"&&t==="power"&&!st.power){st.power=true;show();fb("Power's back on. Now purge the gas.","good");return}
+ if(st.power&&i===0){mist++;fb("Stop. Power's still on. Kill it at the power source before you open the drive.","bad")}
+ else fb("Not that one yet. Follow the step on the right.","bad");});
+const H=$("#lsHandle");
+H.addEventListener("pointerdown",e=>{if(!LS[i]||LS[i].id!=="thread")return;dragging=true;try{H.setPointerCapture(e.pointerId)}catch(_){}e.preventDefault()});
+H.addEventListener("pointermove",e=>{if(!dragging)return;const p=toSvg(e),L=P.getTotalLength();let best=st.thread,bd=1e9;
+ for(let k=0;k<=200;k++){const f=k/200;if(f<st.thread-.05||f>st.thread+.2)continue;const q=P.getPointAtLength(L*f),dd=(q.x-p.x)**2+(q.y-p.y)**2;if(dd<bd){bd=dd;best=f}}
+ st.thread=Math.max(.12,best);render();
+ if(st.thread>=.96){st.thread=1;dragging=false;render();next("Threaded. It's sitting in the roll groove and into the outer guide.")}});
+["pointerup","pointercancel"].forEach(ev=>H.addEventListener(ev,()=>dragging=false));
+function reset(){st={power:true,door:false,roll:false,spool:false,ret:false,cut:false,arm:false,thread:.12,noz:true,tip:true,straight:false,gun:0,clip:false};
+ i=0;mist=0;clearInterval(feedT);svg.classList.remove("feeding","purging");show()}
+reset();
+})();
+
+/* gun angle */
+let proc="solid";
+$$("[data-proc]").forEach(c=>c.onclick=()=>{proc=c.dataset.proc;$$("[data-proc]").forEach(x=>x.classList.toggle("on",x===c));
+ $("#angle").value=proc==="solid"?12:-12;$("#stick").value=proc==="solid"?5:7;drawGun()});
+function drawGun(){
+ const a=+$("#angle").value, d=+$("#stick").value; // d in 1/8"
+ const px=d*7, tipY=176-px;
+ const g=$("#gun");
+ // positive angle = push: top of gun leans back (left), nozzle points forward (right)
+ g.setAttribute("transform",`translate(200 ${tipY}) rotate(${a})`);
+ const wl=$("#wireLine"); wl.setAttribute("x1",0);wl.setAttribute("y1",-30);wl.setAttribute("x2",0);wl.setAttribute("y2",px/Math.cos(a*Math.PI/180)*1-0);
+ $("#gunBody").setAttribute("y",-150);$("#gunTip").setAttribute("y",-40);
+ const kind=a>2?"Push":a<-2?"Drag":"Straight up";
+ $("#angleOut").textContent=`${kind}, ${Math.abs(a)}°`;
+ const frac=["","1/8","1/4","3/8","1/2","5/8","3/4","7/8","1","1-1/8","1-1/4","1-3/8","1-1/2"][d];
+ $("#stickOut").textContent=`${frac}"`;
+ $("#angleLabel").textContent=`${kind.toUpperCase()} ${Math.abs(a)}°  ·  ${frac}" TO WORK`;
+ const msgs=[];let ok=true;
+ const want=proc==="solid"?1:-1;
+ if(Math.sign(a)!==want&&Math.abs(a)>2){ok=false;msgs.push(proc==="solid"?"Solid wire wants a push.":"Flux-core wants a drag, like stick.")}
+ else if(Math.abs(a)>20){ok=false;msgs.push("Too steep. Narrow, ropey bead and poor gas coverage.")}
+ else if(Math.abs(a)<5){msgs.push("Close to straight up. Fine, but a little tilt helps.")}
+ const lo=proc==="solid"?3:5, hi=proc==="solid"?5:7;
+ if(d<lo){ok=false;msgs.push("Too close. This is what burns tips and nozzles.")}
+ else if(d>hi){ok=false;msgs.push("Too far. Spatter, unstable arc, and porosity.")}
+ if(ok&&!msgs.length)msgs.push("Good. That's a solid starting point.");
+ $("#verdict").className="verdict "+(ok?"good":"bad");$("#verdict").textContent=msgs.join(" ");
+}
+["angle","stick"].forEach(id=>$("#"+id).oninput=drawGun);drawGun();
+
+/* cursive canvas */
+let pat="e",anim=null,t0=0;
+$$("[data-pat]").forEach(c=>c.onclick=()=>{pat=c.dataset.pat;$$("[data-pat]").forEach(x=>x.classList.toggle("on",x===c));t0=performance.now()});
+function pathPt(u){ // u in 0..1 over full run, returns x,y,isToe
+ const L=520,x0=40,cy=90,r=34,n=8;
+ const k=u*n, f=k%1, base=x0+u*L;
+ if(pat==="s")return[base,cy,false];
+ if(pat==="z"){const tri=f<.5?f*2:2-f*2;return[base,cy-r+tri*2*r,f<.06||Math.abs(f-.5)<.06]}
+ if(pat==="o"){const th=f*2*Math.PI;return[base+Math.cos(th)*r*.6,cy+Math.sin(th)*r,Math.abs(Math.sin(th))>.97]}
+ const th=f*2*Math.PI; // cursive e: loop that backs up
+ return[base-Math.sin(th)*r*.9,cy-Math.cos(th)*r,Math.abs(Math.cos(th))>.97];
+}
+function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim()}
+function drawCursive(now){
+ const cv=$("#cursive");if(!cv||$("#technique").hidden){anim=null;return}
+ const c=cv.getContext("2d");c.clearRect(0,0,cv.width,cv.height);
+ c.fillStyle=css("--steel");c.globalAlpha=.25;c.fillRect(20,40,560,100);c.globalAlpha=1;
+ c.setLineDash([4,6]);c.strokeStyle=css("--muted");c.beginPath();c.moveTo(20,56);c.lineTo(580,56);c.moveTo(20,124);c.lineTo(580,124);c.stroke();c.setLineDash([]);
+ c.fillStyle=css("--muted");c.font="12px JetBrains Mono, monospace";c.fillText("TOE",22,50);c.fillText("TOE",22,140);
+ const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+ const prog=reduce?1:((now-t0)/7000)%1;
+ c.strokeStyle=css("--copper");c.lineWidth=6;c.lineCap="round";c.lineJoin="round";c.beginPath();
+ const N=600;for(let i=0;i<=N*prog;i++){const[x,y]=pathPt(i/N);i?c.lineTo(x,y):c.moveTo(x,y)}c.stroke();
+ c.fillStyle=css("--amber");for(let i=0;i<=N*prog;i+=1){const[x,y,toe]=pathPt(i/N);if(toe){c.beginPath();c.arc(x,y,4,0,7);c.fill();i+=8}}
+ const[hx,hy]=pathPt(prog);c.fillStyle=css("--hot");c.beginPath();c.arc(hx,hy,8,0,7);c.fill();
+ if(!reduce)anim=requestAnimationFrame(drawCursive);else anim=null;
+}
+function startCursive(){if(!anim){t0=performance.now();anim=requestAnimationFrame(drawCursive)}}
+
+/* troubleshoot */
+const syms={
+ burnback:["Burning back into the tip",["Back off. Keep 3/8\"–1/2\" stickout on solid, about 3/4\" on flux-core.","Turn wire speed up or voltage down.","Don't start with the tip touching the metal.","Check feed: kinked lead, dirty liner, wrong roll groove, tension too loose.","Match tip size to wire size.","Clamp ground on clean bare metal close to the weld.","Pull straight back when you stop the bead."]],
+ nozzle:["Nozzle keeps burning",["Back off to about 1/2\"–5/8\" nozzle-to-work.","Clean spatter out often and use nozzle gel.","Check the insulator. Burned or missing means the nozzle goes hot.","Don't drag the nozzle on the plate or into the puddle.","Long high-amp runs: let it cool or use a heavier nozzle."]],
+ ropey:["Bead is tall and ropey",["Bump voltage up a little or drop wire speed slightly.","Slow down a touch so the toes wet in.","Use a tight cursive or zigzag instead of a dead straight line.","Flatten your angle to 10–15°."]],
+ stutter:["Wire stutters or hesitates",["Check roll size and groove match the wire.","Set tension: tighten until it stops slipping, then a little more.","Make sure the spool turns freely and the brake isn't too tight.","Blow out or replace the liner. Keep the lead straight.","Replace a worn tip. Run the feeder upright, under 15° tilt."]],
+ birdnest:["Wire balls up at the drive rolls",["Usually a jam downstream: the tip, liner, or a kink is stopping the wire.","Check that the gun bushing is pushed all the way in and locked.","Too much roll tension on a blocked wire forces it to nest.","Cut out the nest, reload, and cold feed with the tip off."]],
+ porosity:["Holes and porosity",["Is the bottle open and flow set?","Screen out wind, or switch to flux-core outside.","Clean spatter out of the nozzle and diffuser holes.","Grind off mill scale, rust, paint, and oil first.","Check polarity matches the wire."]]
+};
+$("#symChips").innerHTML=Object.keys(syms).map(k=>`<button class="chip" data-s="${k}">${syms[k][0]}</button>`).join("");
+function pickSym(k){$("#symTitle").textContent=syms[k][0];$("#symFixes").innerHTML=syms[k][1].map(x=>`<li><span>${x}</span></li>`).join("");
+ $$("#symChips .chip").forEach(c=>c.classList.toggle("on",c.dataset.s===k))}
+$$("#symChips .chip").forEach(c=>c.onclick=()=>pickSym(c.dataset.s));pickSym("burnback");
+
+/* suitcase */
+const caseParts={
+ front:{
+  handle:["Carry handle","Lift and hang the feeder by this.","Run it upright on a stable, dry surface. Tilting it more than about 15° hurts feeding."],
+  setup:["Setup menu button","Hidden button that opens the setup menu. Timers like run-in, pre-flow, post-flow, and burnback live in here on most units, plus units (inches or metric).","Don't change these without checking with your lead. They affect everyone who uses the feeder."],
+  meters:["Digital meters","Left shows wire feed speed, and amps while welding. Right shows volts. With TVT, it's the voltage at the arc.","If the arc voltage reads lower than you set, long leads are dropping voltage. TVT models are built to compensate."],
+  wfs:["Wire feed speed knob","Sets how fast the wire comes out. On wire, more wire speed also means more amps.","Too slow for your voltage gives burnback. Too fast stubs into the plate and pushes the gun back."],
+  volts:["Voltage knob","Sets arc voltage at the power source remotely. On CrossLinc setups this rides the weld cable, so there's no separate control cable.","Too low gives a tall, ropey bead. Too high gives a wide, spattery bead and burnback."],
+  bushing:["Gun bushing","Where the gun connector plugs in. Wire, current, and gas pass into the gun here.","Push the gun in all the way and lock it."],
+  trigger:["5-pin trigger connector","The gun's trigger plug connects here. One pin also runs a dual-procedure switch on guns that have one, which drops wire speed to 83%.","Check this first when nothing happens on the trigger."],
+  door:["Side door","Opens to the spool and drive. Switch to Inside view to see what's behind it.","Keep it latched while welding. Grit on the wire ends up in the liner."]
+ },
+ back:{
+  handle:["Carry handle","Lift and hang the feeder by this.","Don't hang it by the gun cable or the weld lead."],
+  plate:["Rating plate","Model, code number, and ratings.","Read it when ordering parts or drive roll kits so you get the right ones."],
+  electrode:["Electrode lead input","The weld cable from the power source bolts here. All weld current comes through it, plus the control signal on CrossLinc setups.","Keep the lug clean and tight. A loose lug runs hot and drops voltage."],
+  gasin:["Gas inlet","Hose from the regulator or flowmeter connects here. A valve inside opens only while welding or purging.","Hissing means a leak. Check with soapy water."],
+  flowmeter:["Flowmeter","Sets and reads gas flow at the feeder. Only some LN-25X models have one.","About 20–30 CFH is a common start for solid wire. More isn't better, and it can pull air in."],
+  worksense:["Work sense lead","Clip lead that goes on the workpiece so the feeder can sense arc voltage.","Clip it to clean metal near the weld. If it's off, the feeder may not run or the readings are wrong."]
+ },
+ inside:{
+  spool:["Wire spool","The wire supply. It should pay off from the bottom toward the drive rolls.","Hold the loose end when you cut the tie, or the wire springs off and tangles."],
+  retainer:["Spool retainer","Locks the spool onto the spindle.","If it's not locked, the spool walks off and the wire snarls."],
+  brake:["Spindle brake","Adds drag so the spool stops when the wire stops.","Too loose and the spool keeps spinning and unravels. Too tight and the rolls slip."],
+  inlet:["Inlet guide","Tube that lines the wire up before the rolls.","Must match wire size. Change it when you change roll size."],
+  rolls:["Drive rolls","Two grooved rolls that grip and push the wire. Size is stamped on the roll.","V-groove for solid, knurled for flux-core. Replace if worn or packed with dirt."],
+  arm:["Pressure arm","Swings down to press the top roll onto the wire. Swing it up to load wire.","With the arm open, the rolls spin but nothing moves. Try it with the buttons below."],
+  tension:["Tension knob","Sets how hard the rolls squeeze the wire.","Feed into a gloved hand: tighten until it stops slipping, then a bit more. Back off if it flattens the wire."],
+  motor:["Drive motor and gears","The motor and gear train that turn the rolls.","Grinding or a motor that runs with no feed usually means a jam downstream."],
+  outer:["Outer guide and gun bushing","Carries the wire from the rolls into the gun.","Gap between the rolls and the gun liner is where birdnests start."],
+  coldfeed:["Cold feed / gas purge","Push one way to feed wire with no power or gas. Push the other way to flow gas with no wire.","Use cold feed with the tip off when you load a spool."],
+  steps:["2-step / 4-step switch","2-step: hold the trigger to weld. 4-step: click to start, click again to stop.","4-step saves your hand on long beads. Know which one it's on before you strike."]
+ }
+};
+let cview="front";
+function pickCase(k){if(caseQuiz&&caseQuiz.on)return;const p=caseParts[cview][k];if(!p)return;
+ $("#caseInfo").innerHTML=card(cview==="inside"?"Inside the case":cview==="back"?"Back of the case":"Front of the case",p[0],EC[k]);
+ $$("#v-"+cview+" .cp").forEach(g=>g.classList.toggle("on",g.dataset.c===k));
+ $$("#caseChips .chip").forEach(c=>c.classList.toggle("on",c.dataset.k===k));}
+function setView(v){if(caseQuiz&&caseQuiz.on)caseQuiz.stop();cview=v;setTimeout(refreshHits,0);if(v==="front"&&window.simReady)setTimeout(simStart);["front","back","inside"].forEach(x=>$("#v-"+x).hidden=x!==v);
+ $$("#viewChips .chip").forEach(c=>c.classList.toggle("on",c.dataset.v===v));
+ $("#caseChips").innerHTML=Object.keys(caseParts[v]).map(k=>`<button class="chip" data-k="${k}">${caseParts[v][k][0]}</button>`).join("");
+ $$("#caseChips .chip").forEach(c=>c.onclick=()=>pickCase(c.dataset.k));
+ pickCase(Object.keys(caseParts[v])[v==="inside"?4:0]);store.set("ln25x-view",v);}
+$$("#viewChips .chip").forEach(c=>c.onclick=()=>setView(c.dataset.v));
+$$("#suitcase .cp").forEach(g=>g.addEventListener("click",e=>{e.stopPropagation();
+ const v=g.closest("[id^='v-']").id.slice(2);if(v!==cview)return;
+ if(g.dataset.c==="door"){setView("inside");return}pickCase(g.dataset.c);if(!["wfs","volts"].includes(g.dataset.c)&&!(caseQuiz&&caseQuiz.on))reveal($("#caseInfo"))}));
+setView(["front","back","inside"].includes(store.get("ln25x-view"))?store.get("ln25x-view"):"front");
+
+/* front knobs */
+function knobVisual(){const w=+$("#wfsIn").value,v=+$("#vIn").value;
+ $("#mW").textContent=w;$("#mV").textContent=v.toFixed(1);
+ const aw=-135+270*(w-50)/650, av=-135+270*(v-14)/20;
+ $("#wfsPtr").setAttribute("transform",`rotate(${aw} 235 226)`);$("#vPtr").setAttribute("transform",`rotate(${av} 387 226)`);}
+function knobs(){knobVisual();
+ $("#sW").value=Math.round(1+8*(+$("#wfsIn").value-50)/650);
+ $("#sV").value=Math.round(1+8*(+$("#vIn").value-14)/20);
+ if(window.simReady)simUpdate();}
+function syncKnobs(){const w=+$("#sW").value,v=+$("#sV").value,fw=$("#wfsIn"),fv=$("#vIn");
+ if(Math.round(1+8*(fw.value-50)/650)!==w)fw.value=Math.round((50+(w-1)/8*650)/5)*5;
+ if(Math.round(1+8*(fv.value-14)/20)!==v)fv.value=Math.round((14+(v-1)/8*20)*2)/2;
+ $("#fT").value=$("#sT").value;knobVisual();}
+function knobDrag(key,input,cx,cy){const g=$(`#v-front .cp[data-c="${key}"]`),svg=g.ownerSVGElement;let drag=false;
+ const setFrom=e=>{const pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;const p=pt.matrixTransform(svg.getScreenCTM().inverse());
+  let a=Math.atan2(p.x-cx,cy-p.y)*180/Math.PI;a=Math.max(-135,Math.min(135,a));
+  const el=$(input),mn=+el.min,mx=+el.max,st=+el.step||1;el.value=Math.round((mn+(a+135)/270*(mx-mn))/st)*st;knobs()};
+ g.addEventListener("pointerdown",e=>{drag=true;try{g.setPointerCapture(e.pointerId)}catch(_){}setFrom(e);e.preventDefault()});
+ g.addEventListener("pointermove",e=>{if(drag)setFrom(e)});
+ ["pointerup","pointercancel"].forEach(ev=>g.addEventListener(ev,()=>drag=false));}
+knobDrag("wfs","#wfsIn",235,226);knobDrag("volts","#vIn",387,226);
+["wfsIn","vIn"].forEach(id=>$("#"+id).oninput=knobs);knobVisual();
+
+/* inside controls */
+const svgIn=$("#insideSvg");let armOpen=false,four=false,purgeT=null;
+function feedStatus(){const f=svgIn.classList.contains("feeding"),p=svgIn.classList.contains("purging");
+ let s=armOpen?"Arm open. ":"Arm closed. ";
+ if(f)s+=armOpen?"Rolls spinning, but nothing grips the wire, so it doesn't move.":"Feeding wire. No power, no gas.";
+ else if(p)s+="Gas flowing out the bushing, no wire.";
+ else s+=armOpen?"Load wire into the groove, then close the arm.":"Ready to feed.";
+ $("#feedStatus").textContent=s;$("#feedStatus").classList.toggle("live",f||p);}
+function cf(on){svgIn.classList.toggle("feeding",on);$("#cfDot").setAttribute("cx",on?375:386);feedStatus()}
+const cfb=$("#cfBtn");
+cfb.addEventListener("pointerdown",e=>{e.preventDefault();cf(true)});
+["pointerup","pointerleave","pointercancel"].forEach(ev=>cfb.addEventListener(ev,()=>cf(false)));
+cfb.addEventListener("keydown",e=>{if(e.key===" "||e.key==="Enter"){e.preventDefault();cf(true)}});
+cfb.addEventListener("keyup",()=>cf(false));
+$("#purgeBtn").onclick=()=>{svgIn.classList.add("purging");$("#cfDot").setAttribute("cx",397);feedStatus();clearTimeout(purgeT);
+ purgeT=setTimeout(()=>{svgIn.classList.remove("purging");$("#cfDot").setAttribute("cx",386);feedStatus()},2500)};
+$("#armBtn").onclick=()=>{armOpen=!armOpen;svgIn.classList.toggle("armopen",armOpen);
+ $("#armG").style.transform=armOpen?"rotate(-22deg)":"none";$("#armBtn").textContent=armOpen?"Close pressure arm":"Open pressure arm";feedStatus()};
+$("#stepBtn").onclick=()=>{four=!four;$("#stDot").setAttribute("cx",four?485:463);$("#stLbl").textContent=four?"4-STEP":"2-STEP";
+ $("#stepBtn").textContent=four?"Switch to 2-step":"Switch to 4-step"};
+feedStatus();
+
+/* follow-the-wire tour */
+const tourKeys=["spool","brake","inlet","rolls","arm","tension","outer"];let tourI=-1;
+function tourShow(){const k=tourKeys[tourI];pickCase(k);const last=tourI===tourKeys.length-1;
+ $("#caseInfo").insertAdjacentHTML("beforeend",`<div class="btns" style="margin-top:14px;align-items:center"><span class="tag">Stop ${tourI+1} of ${tourKeys.length}</span><button class="btn primary" id="tourNext">${last?"Done":"Next stop"}</button></div>`);
+ $("#tourNext").onclick=()=>{if(last){tourI=-1;$("#caseInfo").querySelector(".btns:last-child").remove();return}tourI++;tourShow()};}
+$("#tourBtn").onclick=()=>{if(caseQuiz&&caseQuiz.on)caseQuiz.stop();if(cview!=="inside")setView("inside");tourI=0;tourShow();$("#caseInfo").scrollIntoView({block:"nearest",behavior:"smooth"})};
+
+/* trigger simulator */
+const TM={
+ "2":{t:"2-step: hold to weld",steps:[["Pull and hold","Gas starts (pre-flow), wire creeps in slow (run-in), then the arc lights and the wire goes full speed. Keep holding."],["Let go","Wire stops. The arc stays on a split second (burnback) so the wire doesn't stick. Gas keeps flowing (post-flow) to cover the hot crater."]],
+  mem:"Doorbell: it only rings while you hold it.",use:"Use it for tacks, short welds, and stitching."},
+ "4":{t:"4-step: click on, click off",steps:[["Pull","Gas pre-flow, run-in, then the arc lights."],["Let go","It keeps welding. Rest your hand."],["Pull again","Still welding."],["Let go","Wire stops, burnback, then post-flow. Done."]],
+  mem:"Light switch: click on, click off. Two clicks = four steps.",use:"Use it for long beads where holding the trigger wears your hand out. Practice on scrap: in 4-step, letting go does not stop the arc."}
+};
+let tmode="2",tstate="idle",tstep=0,tTimers=[],beadW=0,beadT=null;
+const phaseTxt={idle:"Ready",pre:"Pre-flow: gas only",run:"Run-in: wire creeping in slow",weld:"Welding: wire at full speed",latch:"Welding, latched. Hands free",burn:"Burnback: wire melts back a hair",post:"Post-flow: gas covers the crater"};
+function lights(){const g=["pre","run","weld","latch","burn","post"].includes(tstate),w=["run","weld","latch"].includes(tstate),a=["run","weld","latch","burn"].includes(tstate);
+ $("#lGas").classList.toggle("on",g);$("#lWire").classList.toggle("on",w);$("#lWire").classList.toggle("blink",tstate==="run");$("#lArc").classList.toggle("on",a);
+ $("#trPhase").textContent=phaseTxt[tstate];
+ let act=-1;if(tmode==="2")act=tstate==="idle"?-1:["burn","post"].includes(tstate)?1:0;else act=tstate==="idle"?-1:tstep-1;
+ $$("#trSteps li").forEach((li,i)=>li.classList.toggle("act",i===act));
+ const hint={idle:"Press and hold the trigger.",pre:"Keep holding.",run:"Keep holding.",weld:tmode==="2"?"Let go to stop.":"Now let go. It keeps welding.",latch:"Pull the trigger again to start stopping.",burn:"Stopping.",post:"Stopping."};
+ $("#trHint").textContent=tmode==="4"&&tstep===3&&tstate!=="burn"&&tstate!=="post"?"Let go to stop.":hint[tstate];}
+function setT(s){tstate=s;lights();
+ clearInterval(beadT);if(["run","weld","latch"].includes(s))beadT=setInterval(()=>{beadW=Math.min(100,beadW+(s==="run"?.4:1.2));$("#trBead").style.width=beadW+"%"},60);}
+function tStart(){tTimers.forEach(clearTimeout);beadW=0;$("#trBead").style.width="0%";setT("pre");
+ tTimers=[setTimeout(()=>{if(tstate==="pre")setT("run")},500),setTimeout(()=>{if(tstate==="run")setT(tmode==="4"&&tstep===2?"latch":"weld")},1100)];}
+function tStop(){tTimers.forEach(clearTimeout);setT("burn");tTimers=[setTimeout(()=>setT("post"),400),setTimeout(()=>{tstep=0;setT("idle")},1800)];}
+function tDown(){$("#trigBtn").classList.add("down");
+ if(tmode==="2"){if(tstate==="idle")tStart()}
+ else{if(tstate==="idle"){tstep=1;tStart()}else if(tstep===2){tstep=3;if(tstate==="latch")setT("weld");else lights()}}}
+function tUp(){if(!$("#trigBtn").classList.contains("down"))return;$("#trigBtn").classList.remove("down");
+ if(tmode==="2"){if(["pre","run","weld"].includes(tstate))tStop()}
+ else{if(tstep===1){tstep=2;if(tstate==="weld")setT("latch");else lights()}else if(tstep===3){tstep=4;tStop()}}}
+function tMode(m){tmode=m;tTimers.forEach(clearTimeout);clearInterval(beadT);tstep=0;beadW=0;$("#trBead").style.width="0%";
+ $$("[data-tm]").forEach(c=>c.classList.toggle("on",c.dataset.tm===m));const d=TM[m];
+ $("#trTitle").textContent=d.t;$("#trSteps").innerHTML=d.steps.map(s=>`<li><span><b>${s[0]}</b>${s[1]}</span></li>`).join("");
+ $("#trMem").textContent=d.mem;$("#trUse").textContent=d.use;setT("idle");}
+$$("[data-tm]").forEach(c=>c.onclick=()=>tMode(c.dataset.tm));
+const tb=$("#trigBtn");
+tb.addEventListener("pointerdown",e=>{e.preventDefault();try{tb.setPointerCapture(e.pointerId)}catch(_){}tDown()});
+["pointerup","pointercancel"].forEach(ev=>tb.addEventListener(ev,tUp));
+tb.addEventListener("keydown",e=>{if((e.key===" "||e.key==="Enter")&&!e.repeat){e.preventDefault();tDown()}});
+tb.addEventListener("keyup",e=>{if(e.key===" "||e.key==="Enter")tUp()});
+tMode("2");
+
+/* quizzes */
+function Quiz(o){
+ const q={on:false,score:0,n:0};
+ function clear(){$$(".qz").forEach(e=>e.classList.remove("qz"))}
+ function ask(){clear();
+  const pool=o.pool();const cur=pool[Math.floor(Math.random()*pool.length)];
+  o.els(cur[0]).forEach(e=>e.classList.add("qz"));
+  const seen=new Set([cur[1]]),others=[];
+  for(const p of pool.slice().sort(()=>Math.random()-.5)){if(others.length<2&&!seen.has(p[1])){seen.add(p[1]);others.push(p)}}
+  const opts=[cur,...others].sort(()=>Math.random()-.5);let done=false;
+  o.box.innerHTML=`<span class="tag qtag">Quiz · ${q.score} of ${q.n} right</span><h3 class="pname">Name the flashing part</h3><div class="qopts">${opts.map(p=>`<button class="btn" data-q="${p[0]}">${p[1]}</button>`).join("")}</div><div class="qfb"></div><div class="btns" style="margin-top:12px"><button class="btn" data-stop>Stop quiz</button></div>`;
+  o.box.querySelector("[data-stop]").onclick=q.stop;
+  o.box.querySelectorAll("[data-q]").forEach(b=>b.onclick=()=>{if(done)return;done=true;q.n++;
+   const ok=b.dataset.q===cur[0];if(ok)q.score++;
+   b.classList.add(ok?"qright":"qwrong");if(!ok)o.box.querySelector(`[data-q="${cur[0]}"]`).classList.add("qright");
+   const e=o.easy(cur[0])||["","",""];
+   o.box.querySelector(".qtag").textContent=`Quiz · ${q.score} of ${q.n} right`;
+   o.box.querySelector(".qfb").innerHTML=`<div class="like"><span>${ok?"Got it. Remember:":"That's the "+cur[1]+". Remember:"}</span><p>${e[1]}</p></div><div class="btns" style="margin-top:10px"><button class="btn primary" data-next>Next part</button></div>`;
+   o.box.querySelector("[data-next]").onclick=ask;o.box.querySelector("[data-next]").focus();});
+ }
+ q.start=()=>{q.on=true;q.score=0;q.n=0;o.root.classList.add("quizmode");o.box.hidden=false;ask()};
+ q.stop=()=>{q.on=false;clear();o.root.classList.remove("quizmode");o.onStop()};
+ return q;
+}
+caseQuiz=Quiz({root:$("#suitcase"),box:$("#caseInfo"),
+ pool:()=>Object.entries(caseParts[cview]).map(([k,v])=>[k,v[0]]),
+ els:k=>$$(`#v-${cview} .cp[data-c="${k}"]`),easy:k=>EC[k],
+ onStop:()=>pickCase(Object.keys(caseParts[cview])[0])});
+$("#caseQuizBtn").onclick=()=>caseQuiz.on?caseQuiz.stop():caseQuiz.start();
+gunQuiz=Quiz({root:$("#parts"),box:$("#gunQuiz"),
+ pool:()=>Object.entries(parts).map(([k,v])=>[k,v[0]]),
+ els:k=>$$(`#parts .part[data-part="${k}"]`),easy:k=>EG[k],
+ onStop:()=>{$("#gunQuiz").hidden=true}});
+$("#gunQuizBtn").onclick=()=>gunQuiz.on?gunQuiz.stop():gunQuiz.start();
+
+/* simulator */
+const simIds=["sW","sV","sD","sT"];
+const presets={good:[5,5,5,5],burnback:[3,7,5,5],stub:[8,4,5,5],close:[5,5,1,5],far:[5,5,9,5],slow:[5,5,5,1],fast:[5,5,5,9]};
+let simT0=0,simAnim=null;
+function simRead(){return simIds.map(i=>+$("#"+i).value)}
+function simEval([w,v,d,t]){const p=[];
+ if(v-w>=2)p.push({k:"crackle",n:"Burnback",why:"Too much voltage for your wire speed. The arc climbs up and melts the wire back into the tip.",fix:"Turn wire speed up, or volts down."});
+ if(w-v>=2)p.push({k:"thump",n:"Stubbing",why:"Too much wire for your voltage. The wire jabs the plate and shoves the gun back. Bead sits tall and cold.",fix:"Turn volts up, or wire speed down."});
+ if(d<=2)p.push({k:"sizzle",n:"Too close",why:"This is the stick habit. The tip and nozzle cook and fill with spatter.",fix:"Back off to about 3/8\"–1/2\" of wire sticking out."});
+ if(d>=8)p.push({k:"wander",n:"Too far",why:"The arc gets weak and wanders, and the gas can't cover the puddle. Holes show up in the bead.",fix:"Move in closer."});
+ if(t<=2)p.push({k:"sizzle",n:"Moving too slow",why:"Metal piles up in a fat hump. Too much heat on thin stuff.",fix:"Speed up. Wire lays metal faster than stick."});
+ if(t>=8)p.push({k:"sizzle",n:"Moving too fast",why:"Skinny bead that doesn't tie into the edges, with grooves (undercut) along the sides.",fix:"Slow down and let the edges fill."});
+ if(w+v>=14)p.push({k:"roar",n:"Running hot",why:"Both turned way up. Big puddle that's hard to control and burns through thin metal. Gun and nozzle heat up fast.",fix:"Turn both down together, or move faster."});
+ if(w+v<=6)p.push({k:"wander",n:"Too cold",why:"Both turned way down. A small bead sits on top of the plate and doesn't fuse in (cold lap).",fix:"Turn both up together."});
+ return p}
+function rng(seed){return()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function drawBead(prog,cv){
+ cv=cv||$("#beadCv");const c=cv.getContext("2d");const[w,v,d,t]=simRead();
+ c.clearRect(0,0,640,300);
+ c.fillStyle=css("--plate");c.fillRect(0,0,640,185);
+ c.fillStyle=css("--muted");c.font="11px JetBrains Mono, monospace";c.fillText("TOP VIEW",12,18);c.fillText("CROSS-SECTION",12,210);
+ const W=Math.max(10,Math.min(80,36+(v-5)*5-(t-5)*4-(w-v>1?(w-v)*3:0)+(w+v-10)*2));
+ const H=Math.max(4,Math.min(34,12+(w-v)*3+(5-t)*2+(w+v<=6?8:0)));
+ const x0=50,x1=590,xe=x0+(x1-x0)*prog,cy=100;
+ const r=rng(w*1000+v*100+d*10+t);
+ // spatter
+ let sp=Math.max(0,(v-w-1)*10)+Math.max(0,(w-v-1)*12)+(d>=8?18:0)+(d<=2?8:0);
+ c.fillStyle=css("--ink");
+ for(let i=0;i<sp;i++){const x=x0+r()*(x1-x0),y=cy+(r()<.5?-1:1)*(W/2+6+r()*50),s=1+r()*2.5;if(x<xe){c.globalAlpha=.6;c.beginPath();c.arc(x,y,s,0,7);c.fill()}}
+ c.globalAlpha=1;
+ if(xe>x0+2){
+  c.fillStyle=css("--bead");c.beginPath();c.moveTo(x0,cy-W/2);c.lineTo(xe,cy-W/2);c.arc(xe,cy,W/2,-Math.PI/2,Math.PI/2);c.lineTo(x0,cy+W/2);c.arc(x0,cy,W/2,Math.PI/2,Math.PI*1.5);c.fill();
+  // ripples
+  c.strokeStyle=css("--ink");c.globalAlpha=.28;c.lineWidth=1.5;
+  const gap=4+t*.9;
+  for(let x=x0+6;x<xe-4;x+=gap){c.beginPath();c.moveTo(x-W*.18,cy-W/2+2);c.quadraticCurveTo(x+W*.22,cy,x-W*.18,cy+W/2-2);c.stroke()}
+  c.globalAlpha=1;
+  if(H>20){c.strokeStyle="#ffffff";c.globalAlpha=.35;c.lineWidth=3;c.beginPath();c.moveTo(x0,cy);c.lineTo(xe,cy);c.stroke();c.globalAlpha=1}
+  if(t>=8||v-w>=3){c.strokeStyle=css("--ink");c.globalAlpha=.7;c.lineWidth=2;c.setLineDash([10,6]);c.beginPath();c.moveTo(x0,cy-W/2-4);c.lineTo(xe,cy-W/2-4);c.moveTo(x0,cy+W/2+4);c.lineTo(xe,cy+W/2+4);c.stroke();c.setLineDash([]);c.globalAlpha=1}
+  if(d>=8){c.fillStyle=css("--ink");for(let i=0;i<14;i++){const x=x0+r()*(x1-x0);if(x<xe){c.beginPath();c.arc(x,cy+(r()-.5)*W*.6,1.5+r()*2,0,7);c.fill()}}}
+ }
+ if(prog<1){const g=c.createRadialGradient(xe,cy,2,xe,cy,W);g.addColorStop(0,"#fff6d0");g.addColorStop(.35,css("--amber"));g.addColorStop(1,"rgba(255,140,0,0)");c.fillStyle=g;c.beginPath();c.arc(xe,cy,W,0,7);c.fill()}
+ // cross-section
+ const by=262,cx=320,hw=W*1.7;
+ c.fillStyle=css("--plate");c.fillRect(40,by,560,26);
+ c.fillStyle=css("--bead");c.beginPath();c.moveTo(cx-hw,by);c.quadraticCurveTo(cx,by-H*2.6,cx+hw,by);
+ if(t>=8||v-w>=3){c.lineTo(cx+hw+6,by+5);c.lineTo(cx+hw+12,by);c.lineTo(cx-hw-12,by);c.lineTo(cx-hw-6,by+5)}c.closePath();c.fill();
+ c.strokeStyle=css("--ink");c.lineWidth=1.5;c.beginPath();c.moveTo(cx-hw,by);c.quadraticCurveTo(cx,by-H*2.6,cx+hw,by);c.stroke();
+ const toe=w+v<=6?"Sits on top, not fused":H>20?"Toes sit on top, not blended":W>60?"Wide and flat":"Blends into the plate";
+ c.fillStyle=css("--muted");c.fillText(toe.toUpperCase(),cx+hw+20,by-8);
+}
+function drawWave(now){
+ const cv=$("#waveCv"),c=cv.getContext("2d");c.clearRect(0,0,640,70);
+ const p=simEval(simRead()),k=(p.find(x=>x.k!=="sizzle")||{k:"sizzle"}).k;
+ c.strokeStyle=css("--amber");c.lineWidth=2;c.beginPath();
+ const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches,tt=reduce?0:now/1000;
+ const r=rng(Math.floor(tt*12));
+ for(let i=0;i<=160;i++){let a;
+  if(k==="thump")a=((i+Math.floor(tt*40))%14<2)?1:.08*r();
+  else if(k==="crackle")a=(r()<.18?1:.25)*r();
+  else if(k==="wander")a=r()*(.2+.8*Math.abs(Math.sin(i/18+tt*2)));
+  else if(k==="roar")a=.6+.35*r();
+  else a=.25+.3*r();
+  const y=35+(i%2?1:-1)*a*30,x=i*4;i?c.lineTo(x,y):c.moveTo(x,y)}
+ c.stroke();
+}
+const soundWords={sizzle:"Steady sizzle, like bacon in a pan.",crackle:"Loud hiss and crackle. The arc sounds long and angry.",thump:"Popping and thumping like a machine gun. You'd feel the gun push back.",wander:"Uneven, sputtery hiss that keeps changing.",roar:"Loud, heavy roar. Lots of heat coming off it."};
+function simUpdate(){const s=simRead(),p=simEval(s);
+ const k=(p.find(x=>x.k!=="sizzle")||{k:"sizzle"}).k;
+ $("#simVerdict").innerHTML=p.length?p.map(x=>`<div class="prob"><b>${x.n}</b><span>${x.why}</span><span><i>Fix:</i> ${x.fix}</span></div>`).join(""):`<div class="prob okay"><b>Dialed in</b><span>Flat bead that blends into both edges, and a steady sizzle.</span></div>`;
+ $("#soundTxt").textContent="Sound: "+soundWords[k]+(k==="sizzle"&&p.length?" Sounds fine, but look at the bead.":"");
+ $$("#presets .chip").forEach(c=>c.classList.toggle("on",presets[c.dataset.pre].join()===s.join()));
+ if(snd)playSound(k);
+ simT0=performance.now();
+ renderWhatIf();
+}
+function simLoop(now){const simOn=!$("#sim").hidden,frOn=!$("#suitcase").hidden&&!$("#v-front").hidden;
+ if(!simOn&&!frOn){simAnim=null;return}
+ const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches,prog=reduce?1:Math.min(1,(now-simT0)/1600);
+ if(simOn){drawBead(prog);drawWave(now)}
+ if(frOn)drawBead(prog,$("#frontBead"));
+ simAnim=requestAnimationFrame(simLoop)}
+function simStart(){simUpdate();if(!simAnim)simAnim=requestAnimationFrame(simLoop)}
+simIds.forEach(id=>$("#"+id).oninput=simUpdate);
+$$("#presets .chip").forEach(c=>c.onclick=()=>{presets[c.dataset.pre].forEach((v,i)=>$("#"+simIds[i]).value=v);simUpdate()});
+/* what-if grid: rows = volts (H,R,L), cols = wire (S,R,F) */
+const WI={
+ HS:{n:"Burnback",s:"crackle",sev:"bad",see:"The wire melts back up into the tip. Long arc, flat spattery bead, and a ball welded onto the tip.",hear:"Loud hiss and crackle.",feel:"The arc climbs up toward you. No push from the wire at all.",fix:"Speed the wire up first. If that's not enough, drop volts."},
+ HR:{n:"Flat and spattery",s:"hiss",sev:"warn",see:"Wide, flat bead with spatter and grooves (undercut) along the edges.",hear:"Harsh, sharp hiss.",feel:"A long, soft, wandering arc.",fix:"Drop the volts a little."},
+ HF:{n:"Running hot",s:"roar",sev:"bad",see:"Big wide puddle that runs away from you. Burns through thin metal.",hear:"A loud, heavy roar.",feel:"Lots of heat on your glove. Gun and nozzle get hot fast.",fix:"Turn both down together, or move faster."},
+ RS:{n:"Weak and long",s:"hiss",sev:"warn",see:"Skinny bead and some spatter. It can creep into burnback.",hear:"Soft hiss with some crackle.",feel:"The arc feels a little long, like you're too far away.",fix:"Bump the wire speed up a bit."},
+ RR:{n:"Dialed in",s:"sizzle",sev:"ok",see:"Flat bead that blends into both edges. Very little spatter.",hear:"Steady sizzle, like bacon in a pan.",feel:"Smooth and steady. The gun stays put.",fix:"Nothing. Remember these settings."},
+ RF:{n:"Stubbing",s:"pops",sev:"warn",see:"Tall, ropey bead. Wire pokes into the puddle.",hear:"Popping.",feel:"The gun pushes back in your hand.",fix:"Turn volts up, or wire speed down."},
+ LS:{n:"Too cold",s:"sputter",sev:"bad",see:"Small bead sitting on top of the plate. Doesn't fuse in (cold lap).",hear:"Quiet, weak sputter.",feel:"The arc barely wants to stay lit.",fix:"Turn both up together."},
+ LR:{n:"Ropey",s:"choppy",sev:"warn",see:"Tall, narrow rope that doesn't wet into the edges. Looks like stick done too tight.",hear:"Choppy pops.",feel:"Some push-back from the gun.",fix:"Bump the volts up."},
+ LF:{n:"Machine gun",s:"pops",sev:"bad",see:"Wire stubs into the plate. Chunks of unmelted wire and lots of spatter.",hear:"Hard, rapid pops like a machine gun.",feel:"The gun bucks back hard.",fix:"Volts way up or wire way down."}
+};
+const lvl=x=>x<=3?0:x<=6?1:2;
+function wiKey(w,v){return["L","R","H"][lvl(v)]+["S","R","F"][lvl(w)]}
+(function(){const cols=[["S","Wire slow"],["R","Wire right"],["F","Wire fast"]],rows=[["H","Volts high"],["R","Volts right"],["L","Volts low"]];
+ let h=`<div></div>`+cols.map(c=>`<div class="ax">${c[1]}</div>`).join("");
+ rows.forEach(r=>{h+=`<div class="ax">${r[1]}</div>`+cols.map(c=>{const k=r[0]+c[0],x=WI[k];return `<button class="wcell" data-wi="${k}" data-sev="${x.sev}">${x.n}<small>${x.s}</small></button>`}).join("")});
+ $("#wgrid").innerHTML=h;
+ const val={S:2,R:5,F:8,L:2,H:8};
+ $$("#wgrid .wcell").forEach(b=>b.onclick=()=>{const k=b.dataset.wi;$("#sV").value=val[k[0]];$("#sW").value=val[k[1]];$("#sD").value=5;$("#sT").value=5;simUpdate()});
+})();
+function renderWhatIf(){const[w,v]=simRead(),k=wiKey(w,v),x=WI[k];
+ $$("#wgrid .wcell").forEach(b=>b.classList.toggle("on",b.dataset.wi===k));
+ const sevTxt={ok:"Good",warn:"Close, needs a tweak",bad:"Bad weld"}[x.sev];
+ $("#wcard").innerHTML=`<span class="sev ${x.sev}">${sevTxt}</span><h3 class="pname" style="margin-top:8px">${x.n}</h3>
+  <div class="row"><b>You'll see</b><p>${x.see}</p></div>
+  <div class="row"><b>You'll hear</b><p>${x.hear}</p></div>
+  <div class="row"><b>You'll feel</b><p>${x.feel}</p></div>
+  <div class="like"><span>Fix it</span><p>${x.fix}</p></div>`;
+ syncKnobs();
+ const tp=simEval(simRead()).filter(q=>/Moving|Too close|Too far/.test(q.n));
+ const fn=$("#fbName");fn.textContent=tp.length?tp[0].n:x.n;fn.className="sevtxt "+(tp.length?"warn":x.sev);
+ $("#fbFix").textContent=tp.length?tp[0].why+" Fix: "+tp[0].fix:x.sev==="ok"?x.see+" "+x.hear:x.see+" Fix: "+x.fix;
+ $("#heatMark").style.left=((w+v-2)/16*100)+"%";}
+$("#fT").oninput=()=>{$("#sT").value=$("#fT").value;simUpdate()};
+
+/* synthesized arc sound */
+let actx=null,snd=null;
+function sndLabel(on){$("#soundBtn").textContent=on?"Stop sound":"Play the sound";$("#fbSound").textContent=on?"Stop sound":"Hear it"}
+function stopSound(){if(snd){try{snd.stop()}catch(e){}snd=null}sndLabel(false)}
+function playSound(kind){if(snd){try{snd.stop()}catch(e){}snd=null}
+ try{actx=actx||new(window.AudioContext||window.webkitAudioContext)()}catch(e){$("#soundTxt").textContent="Sound isn't available here.";return}
+ if(actx.resume)actx.resume();
+ const sr=actx.sampleRate,len=Math.floor(sr*2),buf=actx.createBuffer(1,len,sr),dd=buf.getChannelData(0);
+ const step=Math.max(1,Math.floor(sr*(kind==="crackle"?.03:kind==="wander"?.07:.004)));let amp=.5;
+ for(let i=0;i<len;i++){const n=Math.random()*2-1,tt=i/sr;
+  if(kind==="thump"){const ph=(tt*16)%1;amp=Math.exp(-ph*28)+.04}
+  else if(i%step===0){amp=(kind==="sizzle"||kind==="roar")?.25+Math.random()*.75:kind==="crackle"?(Math.random()<.4?1:.12):.15+.85*Math.abs(Math.sin(tt*3))*Math.random()}
+  dd[i]=n*amp}
+ const s=actx.createBufferSource();s.buffer=buf;s.loop=true;
+ const f=actx.createBiquadFilter();if(kind==="thump"){f.type="lowpass";f.frequency.value=900}else{f.type="bandpass";f.frequency.value=kind==="crackle"?5500:kind==="roar"?2400:4000;f.Q.value=.6}
+ const g=actx.createGain();g.gain.value=kind==="thump"?.6:kind==="roar"?.5:.3;
+ s.connect(f);f.connect(g);g.connect(actx.destination);s.start();snd=s;sndLabel(true)}
+function toggleSound(){if(snd){stopSound();return}const p=simEval(simRead());playSound((p.find(x=>x.k!=="sizzle")||{k:"sizzle"}).k)}
+$("#soundBtn").onclick=toggleSound;$("#fbSound").onclick=toggleSound;
+window.simReady=true;
+
+/* heat chart */
+const THK=[["16 ga",.060],["14 ga",.075],["1/8\"",.125],["3/16\"",.1875],["1/4\"",.25],["3/8\"",.375],["1/2\"",.5]];
+const WIRE={".023":{m:3.5,lo:30,hi:130},".030":{m:2,lo:40,hi:145},".035":{m:1.6,lo:50,hi:180},".045":{m:1,lo:75,hi:250}};
+let hk=2,hw=".035";
+$("#thkChips").innerHTML=THK.map((t,i)=>`<button class="chip" data-i="${i}">${t[0]}</button>`).join("");
+$("#wireChips").innerHTML=Object.keys(WIRE).map(k=>`<button class="chip" data-w="${k}">${k}"</button>`).join("");
+$$("#thkChips .chip").forEach(c=>c.onclick=()=>{hk=+c.dataset.i;heatCalc()});
+$$("#wireChips .chip").forEach(c=>c.onclick=()=>{hw=c.dataset.w;heatCalc()});
+function heatCalc(){const[nm,inch]=THK[hk],W=WIRE[hw],amps=Math.round(inch*1000),wfs=Math.round(amps*W.m/5)*5;
+ $$("#thkChips .chip").forEach(c=>c.classList.toggle("on",+c.dataset.i===hk));
+ $$("#wireChips .chip").forEach(c=>c.classList.toggle("on",c.dataset.w===hw));
+ let fit=`<div class="prob okay"><b>Good match</b><span>${hw}" wire runs well from about ${W.lo} to ${W.hi} amps.</span></div>`;
+ if(amps>W.hi)fit=`<div class="prob"><b>Too much for one pass</b><span>${hw}" wire tops out around ${W.hi} amps. Step up to bigger wire, or bevel the joint and run multiple passes.</span></div>`;
+ if(amps<W.lo)fit=`<div class="prob"><b>Wire too big</b><span>${hw}" wire wants at least about ${W.lo} amps. Step down to a smaller wire for this thin metal.</span></div>`;
+ $("#heatOut").innerHTML=`<span class="tag">${nm} steel · ${hw}" wire</span>
+  <div class="nums"><div><span>Start at about</span><b>${amps} A</b></div><div><span>Wire speed</span><b>${wfs}</b><span>in/min</span></div></div>
+  <div class="math">${inch.toFixed(3).replace(/^0/,"")}" → ${amps} thou → ${amps} amps × ${W.m} = ${wfs} ipm</div>
+  ${fit}
+  <div class="like"><span>Voltage</span><p>Floor, ceiling, middle. Stub it, then make it go wild, then weld halfway.</p></div>`}
+heatCalc();
+let hq={score:0,n:0};
+function heatAsk(){
+ const ok=[];THK.forEach((t,i)=>Object.keys(WIRE).forEach(w=>{const a=Math.round(t[1]*1000);if(a>=WIRE[w].lo&&a<=WIRE[w].hi)ok.push([i,w])}));
+ const[i,w]=ok[Math.floor(Math.random()*ok.length)],a=Math.round(THK[i][1]*1000),r5=x=>Math.round(x/5)*5,right=r5(a*WIRE[w].m);
+ const wrong=new Set();[1,1.6,2,3.5].forEach(m=>{const v=r5(a*m);if(v!==right)wrong.add(v)});
+ const opts=[right,...[...wrong].sort(()=>Math.random()-.5).slice(0,2)].sort((x,y)=>x-y);let done=false;
+ $("#heatQuiz").innerHTML=`<span class="tag">Test yourself · ${hq.score} of ${hq.n} right</span><h3 class="pname">${THK[i][0]} steel, ${w}" wire. About what wire speed?</h3><div class="qopts">${opts.map(o=>`<button class="btn" data-a="${o}">${o} in/min</button>`).join("")}</div><div class="qfb"></div>`;
+ $$("#heatQuiz [data-a]").forEach(b=>b.onclick=()=>{if(done)return;done=true;hq.n++;const good=+b.dataset.a===right;if(good)hq.score++;
+  b.classList.add(good?"qright":"qwrong");if(!good)$(`#heatQuiz [data-a="${right}"]`).classList.add("qright");
+  $("#heatQuiz .tag").textContent=`Test yourself · ${hq.score} of ${hq.n} right`;
+  $("#heatQuiz .qfb").innerHTML=`<div class="math">${THK[i][0]} → ${a} thou → ${a} amps × ${WIRE[w].m} = ${right} ipm</div><div class="btns" style="margin-top:10px"><button class="btn primary" id="hqNext">Next question</button></div>`;
+  $("#hqNext").onclick=heatAsk;$("#hqNext").focus()});
+}
+heatAsk();
+
+/* checklist */
+const checks=["Drive rolls match wire size and type","Contact tip matches wire size, hole not worn","Nozzle clean, insulator in good shape","Gun bushing fully seated in the feeder","Polarity set for the wire (solid DCEP, most flux-core DCEN)","Gas on and flow set (solid wire)","Ground clamp on clean bare metal near the joint","Metal prepped: no scale, rust, paint, or oil","Wire clipped to stickout","Test bead on scrap of the same thickness","Hood on, sleeves down, cuffs over boots","Heads-up given to anyone nearby"];
+let saved={};try{saved=JSON.parse(store.get("ln25x-checks")||"{}")}catch(e){}
+$("#checks").innerHTML=checks.map((c,i)=>`<label><input type="checkbox" id="ck${i}" ${saved[i]?"checked":""}><span>${c}</span></label>`).join("");
+$$("#checks input").forEach((el,i)=>el.onchange=()=>{saved[i]=el.checked;store.set("ln25x-checks",JSON.stringify(saved))});
+$("#resetChecks").onclick=()=>{saved={};store.set("ln25x-checks","{}");$$("#checks input").forEach(e=>e.checked=false)};
+</script>
+
+</body>
+</html>
