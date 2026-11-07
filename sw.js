@@ -1,5 +1,5 @@
 // Offline support: keeps the guide working on job sites with no signal.
-const CACHE = "ln25x-v1";
+const CACHE = "ln25x-v2";
 const CORE = ["/", "/index.html", "/manifest.webmanifest", "/icons/icon-192.png", "/icons/icon-512.png", "/icons/apple-touch-icon.png", "/icons/favicon-32.png"];
 
 self.addEventListener("install", (e) => {
